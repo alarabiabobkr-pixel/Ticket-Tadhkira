@@ -5,10 +5,10 @@
   "title": "Ihtimal Hob S01E06",
   "durationSeconds": 1655,
   "rawSegmentCount": 166,
-  "targetDuration": 52,
-  "complete": false,
-  "nextRawIndex": 95,
-  "totalBytes": 135988296,
+  "targetDuration": 54,
+  "complete": true,
+  "nextRawIndex": 166,
+  "totalBytes": 231681424,
   "segments": [
     {
       "index": 0,
@@ -163,6 +163,118 @@
       "bytes": 6342368,
       "fileId": "BQACAgQAAyEGAAMBBlOSKAACCNtrAwdj5wpbDl96mNRjkfamnRAwMwACMx8AAuqfGVASdYEmBnAPnz0E",
       "msgId": 2267
+    },
+    {
+      "index": 22,
+      "duration": 40.68,
+      "bytes": 7190624,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPNrBERL1pmmTaTJAXAj50qEQv2IFwACOyIAAuqfIVDbUDjiwztWnT0E",
+      "msgId": 5363
+    },
+    {
+      "index": 23,
+      "duration": 39.16,
+      "bytes": 7569632,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPRrBERQEZFRLWLI5pvVaYlfqJkBsAACPCIAAuqfIVD9xuidIAar6D0E",
+      "msgId": 5364
+    },
+    {
+      "index": 24,
+      "duration": 37.84,
+      "bytes": 7653480,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPVrBERRmm8zyw6spppWMQEbxM_r9AACPSIAAuqfIVDJL7s0CcJO4j0E",
+      "msgId": 5365
+    },
+    {
+      "index": 25,
+      "duration": 42,
+      "bytes": 5491480,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPZrBERWO8KwXq1UuMgzh00k6VaEVAACPiIAAuqfIVBTe-gJz6CKtD0E",
+      "msgId": 5366
+    },
+    {
+      "index": 26,
+      "duration": 50.64,
+      "bytes": 6231448,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPdrBERXqA-j8ppnPRDZUbAjwxyT9QACPyIAAuqfIVDayVowShL6Gz0E",
+      "msgId": 5367
+    },
+    {
+      "index": 27,
+      "duration": 43.24,
+      "bytes": 7572640,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPhrBERYgaRk8Swwq2pMsG_BZ9zhIQACQCIAAuqfIVD8Cyi89DMerz0E",
+      "msgId": 5368
+    },
+    {
+      "index": 28,
+      "duration": 50.44,
+      "bytes": 8216728,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPlrBERaTWo7HQussNofZKovRbFQlAACQSIAAuqfIVArE9AHwOAKwT0E",
+      "msgId": 5369
+    },
+    {
+      "index": 29,
+      "duration": 49.36,
+      "bytes": 6120152,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPprBESH4ogU1hHoSsH51jOG7C_WmwACQyIAAuqfIVDDf6seGLq6_T0E",
+      "msgId": 5370
+    },
+    {
+      "index": 30,
+      "duration": 47.48,
+      "bytes": 3924312,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPtrBESJFwABFPPay_7HAAE_qkaUytcuAAJEIgAC6p8hUBg-i2tcZzlqPQQ",
+      "msgId": 5371
+    },
+    {
+      "index": 31,
+      "duration": 50.68,
+      "bytes": 6038936,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFPxrBESNx70u0YFHdLC84iWVak_3qQACRSIAAuqfIVDiU4pXo2vP2D0E",
+      "msgId": 5372
+    },
+    {
+      "index": 32,
+      "duration": 50.76,
+      "bytes": 6986456,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFP1rBESQ9JxF3vPfLuq-X4pHU0yjvgACRiIAAuqfIVAbLc3KMm551z0E",
+      "msgId": 5373
+    },
+    {
+      "index": 33,
+      "duration": 48.32,
+      "bytes": 6038936,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFP5rBESRwg5KRKMrLjYZdgwIdNeS6AACRyIAAuqfIVAo8-Rljh6jKj0E",
+      "msgId": 5374
+    },
+    {
+      "index": 34,
+      "duration": 53.64,
+      "bytes": 6980440,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFP9rBESTEbTmJSVq5mSajQ6MO-lAWgACSCIAAuqfIVDP3wcM1K4dEz0E",
+      "msgId": 5375
+    },
+    {
+      "index": 35,
+      "duration": 46.16,
+      "bytes": 4378520,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFQABawRElbpW60sk0XxdSnO9vCKXcEQAAkkiAALqnyFQmcSPPfjqLnI9BA",
+      "msgId": 5376
+    },
+    {
+      "index": 36,
+      "duration": 50,
+      "bytes": 4104792,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFQFrBESWsbYtWWiZ19xQmxmK_qB7DQACSiIAAuqfIVBvI5kmbVWSGT0E",
+      "msgId": 5377
+    },
+    {
+      "index": 37,
+      "duration": 3.84,
+      "bytes": 1194552,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACFQJrBESZI9WfTwUjxdfN7uxGawhb0gACSyIAAuqfIVCTIuxVuMwmjz0E",
+      "msgId": 5378
     }
   ]
 }

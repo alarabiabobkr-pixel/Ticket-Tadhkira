@@ -1,0 +1,49 @@
+{
+  "byseCode": "9w7qvx21niea",
+  "channelId": "-1004389672836",
+  "quality": "720p-direct",
+  "title": "Second Case of Seetharam 2026",
+  "durationSeconds": 6702,
+  "rawSegmentCount": 671,
+  "targetDuration": 50,
+  "complete": false,
+  "nextRawIndex": 16,
+  "totalBytes": 18436032,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 361336,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACGTVrBEbUqo15h5IGQkE0qyHykVzMiQACtCYAAupEIVBJawWFGifnKD0E",
+      "msgId": 6453
+    },
+    {
+      "index": 1,
+      "duration": 10.64,
+      "bytes": 286136,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACGTZrBEbVjy0wVYhAbtrz5RYstRJrswACtSYAAupEIVDFZirF8nYnjz0E",
+      "msgId": 6454
+    },
+    {
+      "index": 2,
+      "duration": 49.4,
+      "bytes": 6038936,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACGTdrBEbXaWg8c-CKD40gXnAZCrbu-gACtiYAAupEIVAa1GcAAcdfGRM9BA",
+      "msgId": 6455
+    },
+    {
+      "index": 3,
+      "duration": 43.76,
+      "bytes": 6778528,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACGThrBEbYLK9T2wvu3kiARPfodH-eXgACtyYAAupEIVAmeQoTpLSVkD0E",
+      "msgId": 6456
+    },
+    {
+      "index": 4,
+      "duration": 46.68,
+      "bytes": 4971096,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACGTlrBEcAATYirtEIPrEgv7b6LRhOZD8AArgmAALqRCFQA7FWW8QStpI9BA",
+      "msgId": 6457
+    }
+  ]
+}

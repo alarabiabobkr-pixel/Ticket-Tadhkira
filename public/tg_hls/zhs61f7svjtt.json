@@ -1,0 +1,35 @@
+{
+  "byseCode": "zhs61f7svjtt",
+  "channelId": "-1003808292795",
+  "quality": "720p-direct",
+  "title": "بلاك كلوفر 11",
+  "durationSeconds": 1441,
+  "rawSegmentCount": 143,
+  "targetDuration": 45,
+  "complete": false,
+  "nextRawIndex": 5,
+  "totalBytes": 10126808,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 11.843,
+      "bytes": 1314872,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIU9GsERtU0rPrxNbntAAGja6xmyBCxPAACriMAAvgIIFCiveK7gu0KyT0E",
+      "msgId": 5364
+    },
+    {
+      "index": 1,
+      "duration": 8.882,
+      "bytes": 2009720,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIU9WsERthIVvNJQuLursUKdKB55vHmAAKvIwAC-AggUMS9FOp6w5UtPQQ",
+      "msgId": 5365
+    },
+    {
+      "index": 2,
+      "duration": 31.693,
+      "bytes": 6802216,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIU9msERwABAyJpKF2lcUlVDt4J-XTEMQACsCMAAvgIIFAiIIaOK3QcGT0E",
+      "msgId": 5366
+    }
+  ]
+}
