@@ -1,0 +1,312 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with assigned sequential VIP ticket number, 1-day trial start timestamp, and subscription state",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "User display name"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "User email address"
+        },
+        "photoURL": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "User profile avatar URL"
+        },
+        "ticketNumber": {
+          "type": "integer",
+          "description": "Sequential ticket number starting from 1"
+        },
+        "formattedTicket": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 20,
+          "description": "Formatted ticket number like #0001"
+        },
+        "subscriptionStatus": {
+          "type": "string",
+          "enum": ["none", "active", "expired"],
+          "description": "Paid subscription status managed strictly by admin"
+        },
+        "subscriptionPlan": {
+          "type": "string",
+          "enum": ["trial", "monthly", "yearly"],
+          "description": "Current or latest plan tier"
+        },
+        "trialStartedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Immutable server timestamp when the 1-day (24h) free trial started"
+        },
+        "subscriptionExpiresAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Paid subscription expiration server timestamp (null until activated by admin)"
+        },
+        "activatedBy": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Admin email that activated the paid subscription"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of user profile creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last update"
+        }
+      },
+      "required": [
+        "uid",
+        "displayName",
+        "email",
+        "ticketNumber",
+        "formattedTicket",
+        "subscriptionStatus",
+        "subscriptionPlan",
+        "trialStartedAt",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "PaymentRequest": {
+      "title": "PaymentRequest",
+      "description": "Yemeni wallet (Jaib, ONE Cash, Mobile Money, Jawali) payment confirmation submitted by user for admin or AI verification",
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Document ID of the payment request"
+        },
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Firebase Auth UID of the submitting subscriber"
+        },
+        "displayName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Subscriber display name"
+        },
+        "userEmail": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Subscriber Google email"
+        },
+        "formattedTicket": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 20,
+          "description": "Subscriber VIP ticket number"
+        },
+        "plan": {
+          "type": "string",
+          "enum": ["monthly", "yearly"],
+          "description": "Selected subscription plan (monthly = 500 YER, yearly = 5000 YER)"
+        },
+        "amount": {
+          "type": "integer",
+          "enum": [500, 5000],
+          "description": "Transfer amount in YER"
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["YER"],
+          "description": "Currency code"
+        },
+        "walletNumber": {
+          "type": "string",
+          "enum": ["779676636"],
+          "description": "Target wallet account number"
+        },
+        "walletProvider": {
+          "type": "string",
+          "enum": ["jaib", "onecash", "mobilemoney", "jawali"],
+          "description": "Selected Yemeni wallet provider used for the transfer"
+        },
+        "senderPhone": {
+          "type": "string",
+          "minLength": 7,
+          "maxLength": 20,
+          "pattern": "^[0-9+\\s\\-]{7,20}$",
+          "description": "Sender mobile phone number used in Jaib"
+        },
+        "transactionRef": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 80,
+          "description": "Jaib transfer reference or transaction ID"
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 250,
+          "description": "Optional note from subscriber"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected"],
+          "description": "Verification status managed by admin"
+        },
+        "adminNote": {
+          "type": "string",
+          "maxLength": 250,
+          "description": "Optional admin review note"
+        },
+        "reviewedBy": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Admin email or AI verifier identifier"
+        },
+        "aiVerified": {
+          "type": "boolean",
+          "description": "Whether Gemini Vision verified the uploaded Jaib receipt"
+        },
+        "aiConfidence": {
+          "type": "integer",
+          "description": "AI confidence score from 0 to 100"
+        },
+        "aiReason": {
+          "type": "string",
+          "maxLength": 300,
+          "description": "Concise Arabic explanation from AI receipt analyzer"
+        },
+        "aiDetectedAmount": {
+          "type": "integer",
+          "description": "Transfer amount in YER extracted from receipt image"
+        },
+        "aiDetectedReceiver": {
+          "type": "string",
+          "maxLength": 40,
+          "description": "Receiver account/phone extracted from receipt image"
+        },
+        "aiDetectedRef": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "Transaction reference extracted from receipt image"
+        },
+        "aiReceiptHash": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "SHA-256 hash of uploaded receipt image for anti-duplicate auditing"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of payment submission"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of last status change"
+        }
+      },
+      "required": [
+        "requestId",
+        "uid",
+        "displayName",
+        "userEmail",
+        "formattedTicket",
+        "plan",
+        "amount",
+        "currency",
+        "walletNumber",
+        "senderPhone",
+        "transactionRef",
+        "status",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Counter": {
+      "title": "Counter",
+      "description": "Global atomic sequence counter for ticket numbers",
+      "type": "object",
+      "properties": {
+        "currentTicket": {
+          "type": "integer",
+          "description": "Current highest issued ticket number"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last update server timestamp"
+        }
+      },
+      "required": [
+        "currentTicket",
+        "updatedAt"
+      ]
+    },
+    "Admin": {
+      "title": "Admin",
+      "description": "Admin role marker document",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z0-9_\\-]+$",
+          "description": "Admin Firebase Auth UID"
+        },
+        "email": {
+          "type": "string",
+          "maxLength": 160,
+          "description": "Admin email"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin"],
+          "description": "Admin role identifier"
+        }
+      },
+      "required": [
+        "uid",
+        "email",
+        "role"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User documents containing profile, VIP ticket number, immutable 1-day trial start time, and admin-controlled subscription state"
+    },
+    "/paymentRequests/{requestId}": {
+      "schema": "PaymentRequest",
+      "description": "Yemeni wallet payment confirmation requests submitted by users for AI/admin verification"
+    },
+    "/counters/{counterId}": {
+      "schema": "Counter",
+      "description": "Atomic counter documents for sequential ticket allocation"
+    },
+    "/admins/{adminId}": {
+      "schema": "Admin",
+      "description": "Read-only admin role documents"
+    },
+    "/test/{testId}": {
+      "schema": "Counter",
+      "description": "Connection health check test documents"
+    }
+  }
+}

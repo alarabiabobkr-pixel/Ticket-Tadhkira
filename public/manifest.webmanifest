@@ -1,0 +1,35 @@
+{
+  "id": "/",
+  "name": "تذكرة دخول VIP • أفلام ومسلسلات",
+  "short_name": "تذكرة دخول",
+  "description": "بوابة ترفيهية متكاملة للأفلام والمسلسلات تعمل بدون إنترنت وبأقل استهلاك للبيانات",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#07090e",
+  "background_color": "#07090e",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["entertainment", "movies", "video"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

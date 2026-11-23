@@ -1,0 +1,77 @@
+{
+  "byseCode": "jzcd8vwe3k5q",
+  "channelId": "-1003808292795",
+  "quality": "720p-direct",
+  "title": "بلاك كلوفر 4",
+  "durationSeconds": 1441,
+  "rawSegmentCount": 142,
+  "targetDuration": 47,
+  "complete": false,
+  "nextRawIndex": 22,
+  "totalBytes": 50211792,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 11.843,
+      "bytes": 1236664,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIjmsDB0sD1kOKtPjEPoh2XZ2aZbaGAALRIAAC-AgYULRYI-RhkmBuPQQ",
+      "msgId": 2190
+    },
+    {
+      "index": 1,
+      "duration": 8.882,
+      "bytes": 1949560,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIj2sDB0xOGW1WOy06Of0dM_zJ5kZFAALSIAAC-AgYUNxatxkq91yQPQQ",
+      "msgId": 2191
+    },
+    {
+      "index": 2,
+      "duration": 30.067,
+      "bytes": 6384104,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIkGsDB1Sakr8AAf-SR39lGFCDPZ1YrAAC0yAAAvgIGFCpxnj8d6PZaj0E",
+      "msgId": 2192
+    },
+    {
+      "index": 3,
+      "duration": 20.6,
+      "bytes": 6296496,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIkWsDB11tdQjI4bwUC4D2YLhIwOadAALUIAAC-AgYUD50rvZoi67bPQQ",
+      "msgId": 2193
+    },
+    {
+      "index": 4,
+      "duration": 28.607,
+      "bytes": 7256424,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIkmsDB4Pgb5sevCtyo7VDFVW0bvKYAALVIAAC-AgYUCjeUO3C4V2UPQQ",
+      "msgId": 2194
+    },
+    {
+      "index": 5,
+      "duration": 21.81,
+      "bytes": 7493680,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIk2sDB4YC4MV6jD-p8Oo7wXpRlrpCAALWIAAC-AgYUBOsyob3VTDoPQQ",
+      "msgId": 2195
+    },
+    {
+      "index": 6,
+      "duration": 19.308,
+      "bytes": 6470960,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIlGsDB5FQEt0im56WPuTm7QV5rQEhAALYIAAC-AgYUFBk0M2MqDVsPQQ",
+      "msgId": 2196
+    },
+    {
+      "index": 7,
+      "duration": 40.033,
+      "bytes": 7208672,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIlWsDB5en4ui7hIkEGE3zfbOv9DGbAALZIAAC-AgYUAABKKdRSek0fj0E",
+      "msgId": 2197
+    },
+    {
+      "index": 8,
+      "duration": 46.038,
+      "bytes": 5915232,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIIlmsDB5xtImFF0PCxsUW9H4p2jEJuAALaIAAC-AgYUDrF6CEQ_NrLPQQ",
+      "msgId": 2198
+    }
+  ]
+}

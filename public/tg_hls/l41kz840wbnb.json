@@ -1,0 +1,42 @@
+{
+  "byseCode": "l41kz840wbnb",
+  "channelId": "-1004438628400",
+  "quality": "720p-direct",
+  "title": "Doroob Al MarjalaS03E18 WEB-DL AKWAM",
+  "durationSeconds": 2568,
+  "rawSegmentCount": 257,
+  "targetDuration": 48,
+  "complete": false,
+  "nextRawIndex": 11,
+  "totalBytes": 16379688,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 13.04,
+      "bytes": 3282104,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACBUJrAifcdoTuuIjp8vs4U4u-YCNdLAAClyMAAgaSGFC1EHJOXiw3Kz0E",
+      "msgId": 1346
+    },
+    {
+      "index": 1,
+      "duration": 8.52,
+      "bytes": 1011064,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACBUNrAifdNAJ0wOsejdBNiWZYJYePewACmCMAAgaSGFARdd4l-WiWyD0E",
+      "msgId": 1347
+    },
+    {
+      "index": 2,
+      "duration": 42.8,
+      "bytes": 5094048,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACBURrAifeeHQehzUB_Zw7xIJIwJEJdwACmSMAAgaSGFBkETFOOdAVbj0E",
+      "msgId": 1348
+    },
+    {
+      "index": 3,
+      "duration": 47.48,
+      "bytes": 6992472,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACBUVrAifgf5LnMlhEVk4n1KYEoLqjMAACmiMAAgaSGFDLOhCu_qvCFj0E",
+      "msgId": 1349
+    }
+  ]
+}

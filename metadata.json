@@ -1,0 +1,8 @@
+{
+  "name": "تذكرة دخول",
+  "description": "بوابة وسائط متكاملة للأفلام والمسلسلات والدراما بجودة فائقة وبدون فواصل",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

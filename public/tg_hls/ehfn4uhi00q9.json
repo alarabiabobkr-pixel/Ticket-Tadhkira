@@ -1,0 +1,42 @@
+{
+  "byseCode": "ehfn4uhi00q9",
+  "channelId": "-1004438628400",
+  "quality": "720p-direct",
+  "title": "Doroob Al MarjalaS03E13 WEB-DL AKWAM",
+  "durationSeconds": 2649,
+  "rawSegmentCount": 265,
+  "targetDuration": 48,
+  "complete": false,
+  "nextRawIndex": 11,
+  "totalBytes": 16409768,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 13.04,
+      "bytes": 3465592,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACCqlrAxMKcNTd3C_jitEkbT3K_74ECgACuD4AAvyqGFCSexT2pc3qiD0E",
+      "msgId": 2729
+    },
+    {
+      "index": 1,
+      "duration": 8.52,
+      "bytes": 1005048,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACCqprAxMLaNo6xSGAaEjCektLYXPOTQACuT4AAvyqGFAfGTWMnSZwCD0E",
+      "msgId": 2730
+    },
+    {
+      "index": 2,
+      "duration": 42.8,
+      "bytes": 4976736,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACCqtrAxMMosPvFSb2nzHlIKJsUHJL4wACuj4AAvyqGFADQbI4nSzcIj0E",
+      "msgId": 2731
+    },
+    {
+      "index": 3,
+      "duration": 47.48,
+      "bytes": 6962392,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACCqxrAxMOeMv92OUz9OwMZtL0Fgs6swACuz4AAvyqGFCDg1gqApDBsj0E",
+      "msgId": 2732
+    }
+  ]
+}

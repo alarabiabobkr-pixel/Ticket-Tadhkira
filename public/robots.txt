@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Allow: /catalog.json
+Allow: /curated_catalog.json
+Allow: /posters/
+Allow: /backdrops/
+
+Sitemap: https://ticket-vib.netlify.app/sitemap.xml

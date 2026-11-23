@@ -1,0 +1,717 @@
+/* ========================================================================= */
+/* Tadhkira VIP - Main Stylesheet (تذكرة دخول) */
+/* ========================================================================= */
+
+body {
+  font-family: 'Cairo', sans-serif;
+  background-color: #07090e;
+  color: #f8fafc;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.glass-nav {
+  background: rgba(12, 16, 23, 0.92);
+  backdrop-filter: blur(16px);
+}
+
+/* Ensure Hero slides lay out side-by-side cleanly and never stack vertically before Swiper initializes */
+.heroSwiper .swiper-slide {
+  display: flex;
+}
+.heroSwiper:not(.swiper-initialized) .swiper-slide:not(:first-child) {
+  display: none;
+}
+.heroSwiper:not(.swiper-initialized) .swiper-wrapper {
+  display: block;
+}
+
+/* Distinctive Animated Colored Line Under Video Player */
+@keyframes playerLineFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+@keyframes playerLightSweep {
+  0% { transform: translateX(-150%); opacity: 0; }
+  20% { opacity: 1; }
+  80% { opacity: 1; }
+  100% { transform: translateX(350%); opacity: 0; }
+}
+.player-accent-bar {
+  display: block !important;
+  position: relative;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #00d2ff, #3b82f6, #a855f7, #ec4899, #f59e0b, #10b981, #00d2ff);
+  background-size: 300% 100%;
+  animation: playerLineFlow 5s ease infinite;
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.75), 0 0 32px rgba(236, 72, 153, 0.45);
+  overflow: hidden;
+  z-index: 30;
+  flex-shrink: 0;
+}
+.player-accent-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(4px);
+  opacity: 0.8;
+}
+.player-accent-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+  animation: playerLightSweep 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Attention Glow & Soft Shimmer Around #fullPlayerWrapper On Open */
+@keyframes fullPlayerOpenGlow {
+  0% {
+    opacity: 0;
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0), inset 0 0 12px rgba(0, 210, 255, 0);
+  }
+  20% {
+    opacity: 1;
+    box-shadow: inset 0 0 0 2px rgba(245, 158, 11, 0.85), inset 0 0 34px rgba(245, 158, 11, 0.34), inset 0 0 60px rgba(0, 210, 255, 0.22);
+  }
+  55% {
+    opacity: 0.92;
+    box-shadow: inset 0 0 0 2px rgba(0, 210, 255, 0.78), inset 0 0 28px rgba(0, 210, 255, 0.28), inset 0 0 48px rgba(245, 158, 11, 0.18);
+  }
+  80% {
+    opacity: 0.85;
+    box-shadow: inset 0 0 0 1.5px rgba(245, 158, 11, 0.65), inset 0 0 20px rgba(245, 158, 11, 0.2);
+  }
+  100% {
+    opacity: 0;
+    box-shadow: inset 0 0 0 1px rgba(245, 158, 11, 0), inset 0 0 0 rgba(0, 210, 255, 0);
+  }
+}
+
+@keyframes fullPlayerLightSweep {
+  0% {
+    transform: translateX(-130%) skewX(-18deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.55;
+  }
+  75% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(320%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+#fullPlayerWrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+#fullPlayerWrapper.player-open-glow::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 25;
+  animation: fullPlayerOpenGlow 3.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#fullPlayerWrapper.player-open-glow::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 36%;
+  pointer-events: none;
+  z-index: 26;
+  background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.14), rgba(0, 210, 255, 0.18), transparent);
+  animation: fullPlayerLightSweep 1.65s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+#embedPopupNoticeBanner {
+  max-height: 110px;
+  overflow: hidden;
+  transition: opacity 0.38s ease, max-height 0.38s ease, padding-top 0.38s ease, padding-bottom 0.38s ease, transform 0.38s ease;
+}
+
+#embedPopupNoticeBanner.notice-collapsing {
+  opacity: 0 !important;
+  max-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-bottom-width: 0 !important;
+  transform: translateY(-4px);
+  pointer-events: none;
+}
+
+/* ========================================================================= */
+/* REALISTIC CINEMA TICKET STYLING & NOTCHES */
+/* ========================================================================= */
+.ticket-notch-box {
+  position: relative;
+}
+.ticket-notch-box::before,
+.ticket-notch-box::after {
+  content: '';
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #07090e;
+  border: 1px solid rgba(245, 158, 11, 0.45);
+  border-radius: 50%;
+  left: 68px;
+  z-index: 10;
+  pointer-events: none;
+}
+.ticket-notch-box::before {
+  top: -7px;
+}
+.ticket-notch-box::after {
+  bottom: -7px;
+}
+.ticket-foil-shimmer {
+  position: absolute;
+  top: -50%;
+  left: -60%;
+  width: 55%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent,
+    rgba(255, 255, 255, 0.22),
+    rgba(0, 210, 255, 0.35),
+    rgba(245, 158, 11, 0.3),
+    transparent
+  );
+  transform: rotate(25deg);
+  animation: ticketFoilShine 4.2s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes ticketFoilShine {
+  0%, 65% { transform: translateX(-150%) rotate(25deg); }
+  100% { transform: translateX(450%) rotate(25deg); }
+}
+
+/* ========================================================================= */
+/* OPTIMUS PRIME TRANSFORMERS INTRO ANIMATIONS */
+/* ========================================================================= */
+@keyframes optimusTransformPlateTop {
+  0% { transform: translateY(-110px) scale(0.65) rotate(-10deg); opacity: 0; }
+  40% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+  82% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(-75px) scale(1.08); opacity: 0; }
+}
+@keyframes optimusTransformPlateBottom {
+  0% { transform: translateY(110px) scale(0.65) rotate(10deg); opacity: 0; }
+  40% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+  82% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(75px) scale(1.08); opacity: 0; }
+}
+@keyframes optimusOpticLaser {
+  0%, 25% { transform: scaleX(0); opacity: 0; }
+  42% { transform: scaleX(1); opacity: 1; filter: drop-shadow(0 0 16px #00d2ff); }
+  75% { transform: scaleX(1); opacity: 1; filter: drop-shadow(0 0 25px #00d2ff); }
+  92% { transform: scaleX(1.4); opacity: 0; }
+  100% { transform: scaleX(1.4); opacity: 0; }
+}
+@keyframes cyberCorePulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(0, 210, 255, 0.7)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 32px rgba(0, 210, 255, 0.95)) drop-shadow(0 0 45px rgba(245, 158, 11, 0.6)); }
+}
+@keyframes hudRingSpinClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+@keyframes hudRingSpinCounter {
+  0% { transform: rotate(360deg); }
+  100% { transform: rotate(0deg); }
+}
+@keyframes mechanicalLockClamp {
+  0% { letter-spacing: 10px; opacity: 0; }
+  40% { letter-spacing: 2px; opacity: 1; }
+  80% { letter-spacing: 2px; opacity: 1; }
+  100% { letter-spacing: 12px; opacity: 0; }
+}
+
+/* ========================================================================= */
+/* OPTIMUS PRIME ENTRANCE & ASSEMBLY ANIMATIONS */
+/* ========================================================================= */
+@keyframes optimusDoorSplitTop {
+  0% { transform: translateY(0); opacity: 1; }
+  30% { transform: translateY(-25px); opacity: 1; }
+  100% { transform: translateY(-135%); opacity: 0; }
+}
+@keyframes optimusDoorSplitBottom {
+  0% { transform: translateY(0); opacity: 1; }
+  30% { transform: translateY(25px); opacity: 1; }
+  100% { transform: translateY(135%); opacity: 0; }
+}
+@keyframes optimusFlashBurst {
+  0% { opacity: 0; transform: scale(0.4); }
+  30% { opacity: 1; transform: scale(1.4); }
+  100% { opacity: 0; transform: scale(2.2); }
+}
+
+/* Interface Parts Assembly Animations */
+@keyframes optimusAssembleHeader {
+  0% {
+    transform: translateY(-130px) scale(0.95);
+    opacity: 0;
+    filter: brightness(2) drop-shadow(0 0 35px #00d2ff);
+  }
+  65% {
+    transform: translateY(8px) scale(1.02);
+    opacity: 1;
+    filter: brightness(1.3) drop-shadow(0 0 20px #00d2ff);
+  }
+  85% {
+    transform: translateY(-2px) scale(0.99);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@keyframes optimusAssembleHero {
+  0% {
+    transform: scale(0.6) rotateX(25deg);
+    opacity: 0;
+    filter: contrast(1.5) brightness(1.7) drop-shadow(0 0 45px rgba(245, 158, 11, 0.8));
+  }
+  60% {
+    transform: scale(1.03) rotateX(-3deg);
+    opacity: 1;
+    filter: contrast(1.15) brightness(1.15) drop-shadow(0 0 25px rgba(245, 158, 11, 0.4));
+  }
+  82% {
+    transform: scale(0.99) rotateX(1deg);
+  }
+  100% {
+    transform: scale(1) rotateX(0deg);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@keyframes optimusAssembleActors {
+  0% {
+    transform: translateX(120px) scale(0.92);
+    opacity: 0;
+    filter: drop-shadow(0 0 25px #00d2ff);
+  }
+  70% {
+    transform: translateX(-6px) scale(1.02);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@keyframes optimusAssembleCatalog {
+  0% {
+    transform: translateY(100px) scale(0.95);
+    opacity: 0;
+    filter: drop-shadow(0 0 30px rgba(225, 29, 72, 0.5));
+  }
+  65% {
+    transform: translateY(-8px) scale(1.01);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@keyframes optimusCyberScanLine {
+  0% { top: 0%; opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.assembling-header {
+  animation: optimusAssembleHeader 1.1s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+.assembling-hero {
+  animation: optimusAssembleHero 1.3s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+.assembling-actors {
+  animation: optimusAssembleActors 1.2s 0.45s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+.assembling-catalog {
+  animation: optimusAssembleCatalog 1.2s 0.7s cubic-bezier(0.16, 1, 0.3, 1) both !important;
+}
+
+/* ========================================================================= */
+/* TICKET SHATTER & SCATTER KEYFRAMES (تناثر قطع تذكرة الدخول) */
+/* ========================================================================= */
+@keyframes shardScatterTopLeft {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); opacity: 1; }
+  45% { opacity: 1; }
+  100% { transform: translate3d(-340px, -260px, 0) rotate(-65deg) scale(0.3); opacity: 0; filter: blur(3px); }
+}
+@keyframes shardScatterBottomLeft {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); opacity: 1; }
+  45% { opacity: 1; }
+  100% { transform: translate3d(-350px, 250px, 0) rotate(70deg) scale(0.3); opacity: 0; filter: blur(3px); }
+}
+@keyframes shardScatterTopRight {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); opacity: 1; }
+  45% { opacity: 1; }
+  100% { transform: translate3d(320px, -240px, 0) rotate(55deg) scale(0.3); opacity: 0; filter: blur(3px); }
+}
+@keyframes shardScatterBottomRight {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); opacity: 1; }
+  45% { opacity: 1; }
+  100% { transform: translate3d(340px, 250px, 0) rotate(-65deg) scale(0.3); opacity: 0; filter: blur(3px); }
+}
+@keyframes shardScatterCenterUp {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg) scale(1); opacity: 1; }
+  45% { opacity: 1; }
+  100% { transform: translate3d(30px, -320px, 0) rotate(45deg) scale(0.2); opacity: 0; filter: blur(4px); }
+}
+@keyframes ticketBlastShockwave {
+  0% { transform: scale(0.3); opacity: 1; }
+  50% { transform: scale(2.2); opacity: 0.85; }
+  100% { transform: scale(4.0); opacity: 0; }
+}
+
+.shattered .shard-top-left {
+  animation: shardScatterTopLeft 0.9s cubic-bezier(0.12, 0.9, 0.2, 1) forwards !important;
+}
+.shattered .shard-bottom-left {
+  animation: shardScatterBottomLeft 0.9s cubic-bezier(0.12, 0.9, 0.2, 1) forwards !important;
+}
+.shattered .shard-top-right {
+  animation: shardScatterTopRight 0.9s cubic-bezier(0.12, 0.9, 0.2, 1) forwards !important;
+}
+.shattered .shard-bottom-right {
+  animation: shardScatterBottomRight 0.9s cubic-bezier(0.12, 0.9, 0.2, 1) forwards !important;
+}
+.shattered .shard-center-up {
+  animation: shardScatterCenterUp 0.9s cubic-bezier(0.12, 0.9, 0.2, 1) forwards !important;
+}
+.shattered .ticket-shockwave {
+  animation: ticketBlastShockwave 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+/* ========================================================================= */
+/* SUBTLE CONTINUOUS PULSE FOR ENTRANCE TICKET (نبض خفيف ومستمر لجذب الانتباه) */
+/* ========================================================================= */
+@keyframes entranceTicketPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.25), 0 0 0 0 rgba(245, 158, 11, 0.3);
+    border-color: rgba(245, 158, 11, 0.5);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 65px rgba(245, 158, 11, 0.6), 0 0 25px 3px rgba(245, 158, 11, 0.25);
+    border-color: rgba(245, 158, 11, 0.9);
+  }
+}
+
+.ticket-pulse-active {
+  animation: entranceTicketPulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+#enterWorldBtn:hover {
+  animation-play-state: paused;
+}
+
+/* Subtle pulse on the "اضغط للدخول" text & icon */
+@keyframes actionBadgePulse {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 0px rgba(245, 158, 11, 0));
+  }
+  50% {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
+  }
+}
+
+.action-badge-pulse {
+  display: inline-flex;
+  align-items: center;
+  animation: actionBadgePulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* ========================================================================= */
+/* PREDICTIVE LIVE SEARCH DROPDOWN (البحث التنبؤي السريع) */
+/* ========================================================================= */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(12, 16, 23, 0.6);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 210, 255, 0.3);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 210, 255, 0.6);
+}
+
+@keyframes predictiveDropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.predictive-dropdown-enter {
+  animation: predictiveDropIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.predictive-item-hover:hover,
+.predictive-item-selected {
+  background: linear-gradient(90deg, rgba(0, 210, 255, 0.15), rgba(17, 23, 34, 0.95)) !important;
+  border-color: rgba(0, 210, 255, 0.45) !important;
+}
+
+.search-highlight {
+  color: #fde047;
+  background-color: rgba(245, 158, 11, 0.22);
+  padding: 0 3px;
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: 0 0 8px rgba(245, 158, 11, 0.25);
+}
+
+/* ========================================================================= */
+/* GPU ACCELERATION & BROWSER RENDERING OPTIMIZATIONS (Instant Smoothness)   */
+/* ========================================================================= */
+#optimusPrimeLoader {
+  will-change: opacity, transform;
+  transform: translateZ(0);
+}
+
+.ticket-notch-box {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Skip layout/paint calculations for off-screen cards & sections until scrolled into view */
+.media-card {
+  content-visibility: auto;
+  contain-intrinsic-size: 180px 290px;
+}
+
+.lazy-section-block {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 340px;
+}
+
+.lazy-media-img {
+  opacity: 0;
+  transition: opacity 0.28s ease-out, transform 0.5s ease;
+  background: linear-gradient(110deg, #0b101b 8%, #151e30 18%, #0b101b 33%);
+  background-size: 200% 100%;
+}
+
+.lazy-media-img.is-loaded {
+  opacity: 1;
+  background: transparent;
+}
+
+/* ========================================================================= */
+/* SUPPRESS & HIDE ALL NETLIFY BRANDING, HUD, BADGES & FEEDBACK DRAWERS     */
+/* ========================================================================= */
+#nl-badge-frame,
+#nl-hud-frame,
+iframe[id^="nl-"],
+iframe[title*="Netlify" i],
+iframe[title*="Powered by Netlify" i],
+iframe[src*="netlify" i],
+div[class*="netlify" i],
+div[id*="netlify" i],
+[data-netlify-badge],
+.netlify-badge,
+.netlify-hud,
+.netlify-feedback-drawer,
+.netlify-drawer,
+[data-netlify-identity-menu] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  max-width: 0 !important;
+  max-height: 0 !important;
+  position: fixed !important;
+  top: -99999px !important;
+  left: -99999px !important;
+  clip-path: circle(0) !important;
+  z-index: -99999 !important;
+}
+
+/* ========================================================================= */
+/* CORNER ADHAN ALERT ANIMATIONS                                             */
+/* ========================================================================= */
+@keyframes adhanCornerEnter {
+  0% {
+    opacity: 0;
+    transform: translate3d(-24px, 24px, 0) scale(0.94);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes adhanCornerExit {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-20px, 16px, 0) scale(0.95);
+  }
+}
+
+.adhan-corner-enter {
+  animation: adhanCornerEnter 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.adhan-corner-exit {
+  animation: adhanCornerExit 0.26s ease-in forwards;
+}
+
+@keyframes crescentAura {
+  0%, 100% {
+    box-shadow: 0 0 14px rgba(16, 185, 129, 0.35), 0 0 0 0 rgba(245, 158, 11, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 24px rgba(245, 158, 11, 0.55), 0 0 0 6px rgba(16, 185, 129, 0.08);
+  }
+}
+
+.crescent-aura-glow {
+  animation: crescentAura 2.6s ease-in-out infinite;
+}
+
+/* ========================================================================= */
+/* PLYR HTML5 PLAYER (+10s / -10s SEEK CONTROLS & RTL SAFETY)                */
+/* ========================================================================= */
+#flynetVideoWrapper .plyr {
+  width: 100%;
+  height: 100%;
+  direction: ltr;
+  --plyr-color-main: #00d2ff;
+  --plyr-video-control-background-hover: rgba(0, 210, 255, 0.22);
+}
+
+#flynetVideoWrapper .plyr__controls {
+  direction: ltr;
+}
+
+#flynetVideoWrapper .plyr__controls [data-plyr="rewind"],
+#flynetVideoWrapper .plyr__controls [data-plyr="fast-forward"] {
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  color: #f8fafc;
+  transition: transform 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+#flynetVideoWrapper .plyr__controls [data-plyr="rewind"]:hover,
+#flynetVideoWrapper .plyr__controls [data-plyr="fast-forward"]:hover {
+  color: #00d2ff;
+  transform: scale(1.08);
+}
+
+#flynetVideoWrapper .plyr__controls [data-plyr="rewind"] svg,
+#flynetVideoWrapper .plyr__controls [data-plyr="fast-forward"] svg {
+  width: 21px;
+  height: 21px;
+}
+
+@media (max-width: 520px) {
+  #flynetVideoWrapper .plyr__controls {
+    padding: 20px 6px 6px;
+    gap: 2px;
+  }
+  #flynetVideoWrapper .plyr__controls .plyr__control {
+    padding: 5px;
+  }
+  #flynetVideoWrapper .plyr__controls .plyr__volume {
+    max-width: 34px;
+    min-width: 34px;
+  }
+  #flynetVideoWrapper .plyr__controls .plyr__volume input[type="range"] {
+    display: none;
+  }
+  #flynetVideoWrapper .plyr__controls .plyr__time--duration {
+    display: none;
+  }
+}
+
+.flynet-seek-hud {
+  position: absolute;
+  top: 50%;
+  z-index: 30;
+  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 9999px;
+  background: rgba(7, 9, 14, 0.84);
+  border: 1px solid rgba(0, 210, 255, 0.45);
+  color: #ffffff;
+  font-family: 'Cairo', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transform: translateY(-50%) scale(0.88);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  direction: rtl;
+}
+
+.flynet-seek-hud.seek-left {
+  left: 14%;
+}
+
+.flynet-seek-hud.seek-right {
+  right: 14%;
+}
+
+.flynet-seek-hud.is-visible {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+

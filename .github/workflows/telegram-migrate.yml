@@ -1,0 +1,110 @@
+name: Telegram HLS Catalog Migration
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'وضع الرفع: fast-only (آمن وخفيف بدون ضغط) أو smart-720p (ضغط دفعة قصيرة)'
+        required: true
+        default: 'fast-only'
+        type: choice
+        options:
+          - fast-only
+          - smart-720p
+          - fast-then-full
+      only:
+        description: 'المحتوى المطلوب: all (أفلام + مسلسلات) أو movies (أفلام فقط)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - movies
+      minutes:
+        description: 'مدة التشغيل بالدقائق (الأنسب للحساب المجاني 20-25 دقيقة)'
+        required: true
+        default: '25'
+        type: choice
+        options:
+          - '15'
+          - '25'
+          - '40'
+
+concurrency:
+  group: telegram-catalog-migrator
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  migrate-to-telegram:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Validate Telegram Bot Secret
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
+            echo "❌ Error: TELEGRAM_BOT_TOKEN secret is missing!"
+            echo "Please add TELEGRAM_BOT_TOKEN in GitHub Repository -> Settings -> Secrets and variables -> Actions."
+            exit 1
+          fi
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Ensure ffmpeg is available when needed
+        env:
+          MODE: ${{ github.event.inputs.mode || 'fast-only' }}
+        run: |
+          if [ "$MODE" != "fast-only" ] && ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+          command -v ffmpeg >/dev/null 2>&1 && ffmpeg -version | head -n 1 || echo "ffmpeg skipped (fast-only)"
+
+      - name: Run Safe Cloud Migration Batch
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          MODE: ${{ github.event.inputs.mode || 'fast-only' }}
+          ONLY_SCOPE: ${{ github.event.inputs.only || 'all' }}
+          MAX_MINUTES: ${{ github.event.inputs.minutes || '25' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          START_TS=$(date +%s)
+          if [ "$MODE" = "smart-720p" ]; then
+            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --max-minutes="$MAX_MINUTES" --ffmpeg-workers=1
+          elif [ "$MODE" = "fast-only" ]; then
+            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --fast-only --max-minutes="$MAX_MINUTES"
+          else
+            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --fast-only --max-minutes="$MAX_MINUTES"
+            ELAPSED=$(( $(date +%s) - START_TS ))
+            if [ "$ELAPSED" -lt 120 ]; then
+              echo "Fast-only queue completed/empty (${ELAPSED}s). Continuing with Smart 720p ffmpeg queue (1 worker)..."
+              node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --max-minutes=20 --ffmpeg-workers=1
+            fi
+          fi
+
+          rm -f public/tg_hls/*.tmp.*
+          git add public/tg_hls public/catalog.json public/curated_catalog.json public/catalog.js
+
+          if ! git diff --cached --quiet; then
+            git commit -m "chore(telegram): sync HLS manifests and catalog"
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
+            git push origin "HEAD:$GITHUB_REF_NAME"
+            echo "✅ Pushed batch progress safely to GitHub."
+          else
+            echo "ℹ️ No new manifest changes in this batch."
+          fi

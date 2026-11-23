@@ -1,0 +1,315 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net: Default-deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Core Reusable Primitives
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerifiedSignedIn() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isAuthenticatedAccount() {
+      return isSignedIn() && (
+        request.auth.token.email_verified == true ||
+        (
+          'firebase' in request.auth.token &&
+          'sign_in_provider' in request.auth.token.firebase &&
+          request.auth.token.firebase.sign_in_provider != 'anonymous'
+        )
+      );
+    }
+
+    function isGoogleProvider() {
+      return isSignedIn() &&
+        'firebase' in request.auth.token &&
+        'sign_in_provider' in request.auth.token.firebase &&
+        request.auth.token.firebase.sign_in_provider == 'google.com';
+    }
+
+    function isGoogleAdminIdentity() {
+      return isGoogleProvider() && (
+        request.auth.uid == '32lBPs9fIZgNd5dX37aiLqsBZjU2' ||
+        (
+          'identities' in request.auth.token.firebase &&
+          'email' in request.auth.token.firebase.identities &&
+          'qtabm769@gmail.com' in request.auth.token.firebase.identities.email
+        )
+      );
+    }
+
+    function isBootstrappedAdmin() {
+      return (
+        isVerifiedSignedIn() &&
+        'email' in request.auth.token &&
+        request.auth.token.email.lower() == 'qtabm769@gmail.com'
+      ) || isGoogleAdminIdentity();
+    }
+
+    function isAdmin() {
+      return isBootstrappedAdmin() || (
+        isVerifiedSignedIn() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Entity Validation Blueprints
+    function isValidUser(data) {
+      return data.keys().hasAll([
+        'uid',
+        'displayName',
+        'email',
+        'ticketNumber',
+        'formattedTicket',
+        'subscriptionStatus',
+        'subscriptionPlan',
+        'trialStartedAt',
+        'createdAt',
+        'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid',
+        'displayName',
+        'email',
+        'photoURL',
+        'ticketNumber',
+        'formattedTicket',
+        'subscriptionStatus',
+        'subscriptionPlan',
+        'trialStartedAt',
+        'subscriptionExpiresAt',
+        'activatedBy',
+        'createdAt',
+        'updatedAt'
+      ]) &&
+      isValidId(data.uid) &&
+      data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 120 &&
+      data.email is string && data.email.size() <= 160 &&
+      (!('photoURL' in data) || data.photoURL == null || (data.photoURL is string && data.photoURL.size() <= 500)) &&
+      data.ticketNumber is int && data.ticketNumber >= 0 && data.ticketNumber <= 10000000 &&
+      data.formattedTicket is string && data.formattedTicket.size() >= 2 && data.formattedTicket.size() <= 20 &&
+      data.subscriptionStatus is string && data.subscriptionStatus in ['none', 'active', 'expired'] &&
+      data.subscriptionPlan is string && data.subscriptionPlan in ['trial', 'monthly', 'yearly'] &&
+      data.trialStartedAt is timestamp &&
+      (!('subscriptionExpiresAt' in data) || data.subscriptionExpiresAt == null || data.subscriptionExpiresAt is timestamp) &&
+      (!('activatedBy' in data) || data.activatedBy == null || (data.activatedBy is string && data.activatedBy.size() <= 160)) &&
+      (data.createdAt is timestamp || (data.createdAt is string && data.createdAt.size() <= 40)) &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidPaymentRequest(data) {
+      return data.keys().hasAll([
+        'requestId',
+        'uid',
+        'displayName',
+        'userEmail',
+        'formattedTicket',
+        'plan',
+        'amount',
+        'currency',
+        'walletNumber',
+        'senderPhone',
+        'transactionRef',
+        'status',
+        'createdAt',
+        'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'requestId',
+        'uid',
+        'displayName',
+        'userEmail',
+        'formattedTicket',
+        'plan',
+        'amount',
+        'currency',
+        'walletNumber',
+        'walletProvider',
+        'senderPhone',
+        'transactionRef',
+        'note',
+        'status',
+        'adminNote',
+        'reviewedBy',
+        'aiVerified',
+        'aiConfidence',
+        'aiReason',
+        'aiDetectedAmount',
+        'aiDetectedReceiver',
+        'aiDetectedRef',
+        'aiReceiptHash',
+        'createdAt',
+        'updatedAt'
+      ]) &&
+      isValidId(data.requestId) &&
+      isValidId(data.uid) &&
+      data.displayName is string && data.displayName.size() >= 1 && data.displayName.size() <= 120 &&
+      data.userEmail is string && data.userEmail.size() <= 160 &&
+      data.formattedTicket is string && data.formattedTicket.size() >= 2 && data.formattedTicket.size() <= 20 &&
+      data.plan is string && data.plan in ['monthly', 'yearly'] &&
+      ((data.plan == 'monthly' && data.amount == 500) || (data.plan == 'yearly' && data.amount == 5000)) &&
+      data.currency is string && data.currency == 'YER' &&
+      data.walletNumber is string && data.walletNumber == '779676636' &&
+      (!('walletProvider' in data) || data.walletProvider == null || (data.walletProvider is string && data.walletProvider in ['jaib', 'onecash', 'mobilemoney', 'jawali'])) &&
+      data.senderPhone is string && data.senderPhone.size() >= 7 && data.senderPhone.size() <= 20 && data.senderPhone.matches('^[0-9+\\s\\-]{7,20}$') &&
+      data.transactionRef is string && data.transactionRef.size() >= 3 && data.transactionRef.size() <= 80 &&
+      (!('note' in data) || data.note == null || (data.note is string && data.note.size() <= 250)) &&
+      data.status is string && data.status in ['pending', 'approved', 'rejected'] &&
+      (!('adminNote' in data) || data.adminNote == null || (data.adminNote is string && data.adminNote.size() <= 250)) &&
+      (!('reviewedBy' in data) || data.reviewedBy == null || (data.reviewedBy is string && data.reviewedBy.size() <= 160)) &&
+      (!('aiVerified' in data) || data.aiVerified is bool) &&
+      (!('aiConfidence' in data) || (data.aiConfidence is int && data.aiConfidence >= 0 && data.aiConfidence <= 100)) &&
+      (!('aiReason' in data) || data.aiReason == null || (data.aiReason is string && data.aiReason.size() <= 300)) &&
+      (!('aiDetectedAmount' in data) || (data.aiDetectedAmount is int && data.aiDetectedAmount >= 0 && data.aiDetectedAmount <= 100000000)) &&
+      (!('aiDetectedReceiver' in data) || data.aiDetectedReceiver == null || (data.aiDetectedReceiver is string && data.aiDetectedReceiver.size() <= 40)) &&
+      (!('aiDetectedRef' in data) || data.aiDetectedRef == null || (data.aiDetectedRef is string && data.aiDetectedRef.size() <= 80)) &&
+      (!('aiReceiptHash' in data) || data.aiReceiptHash == null || (data.aiReceiptHash is string && data.aiReceiptHash.size() <= 128)) &&
+      data.createdAt is timestamp &&
+      data.updatedAt is timestamp;
+    }
+
+    function isValidCounter(data) {
+      return data.keys().hasAll(['currentTicket', 'updatedAt']) &&
+        data.keys().hasOnly(['currentTicket', 'updatedAt']) &&
+        data.currentTicket is int && data.currentTicket >= 1 && data.currentTicket <= 10000000 &&
+        (data.updatedAt is timestamp || (data.updatedAt is string && data.updatedAt.size() <= 40));
+    }
+
+    // Admins Collection (Read-only for verified admin/self; immutable via client SDK)
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId) && ((isVerifiedSignedIn() && request.auth.uid == adminId) || isBootstrappedAdmin());
+      allow list: if isBootstrappedAdmin();
+      allow create, update, delete: if false;
+    }
+
+    // Users Collection (PII isolated; 1-day trial anchored to server request.time; subscriptions admin-only)
+    match /users/{userId} {
+      allow get: if isAuthenticatedAccount() && isValidId(userId) && (request.auth.uid == userId || isAdmin());
+      allow list: if isBootstrappedAdmin();
+
+      allow create: if isAuthenticatedAccount() &&
+        isValidId(userId) &&
+        request.auth.uid == userId &&
+        isValidUser(incoming()) &&
+        incoming().uid == request.auth.uid &&
+        incoming().subscriptionStatus == 'none' &&
+        incoming().subscriptionPlan == 'trial' &&
+        (!('subscriptionExpiresAt' in incoming()) || incoming().subscriptionExpiresAt == null) &&
+        (!('activatedBy' in incoming()) || incoming().activatedBy == null) &&
+        incoming().createdAt == request.time &&
+        incoming().trialStartedAt == request.time &&
+        incoming().updatedAt == request.time;
+
+      allow update: if isAuthenticatedAccount() &&
+        isValidId(userId) &&
+        isValidUser(incoming()) &&
+        incoming().uid == existing().uid &&
+        incoming().ticketNumber == existing().ticketNumber &&
+        incoming().formattedTicket == existing().formattedTicket &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        (
+          // Action 1: Admin activates, extends, or revokes a user's subscription
+          (
+            isAdmin() &&
+            incoming().trialStartedAt == existing().trialStartedAt &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['subscriptionStatus', 'subscriptionPlan', 'subscriptionExpiresAt', 'activatedBy', 'updatedAt'])
+          ) ||
+          // Action 2: One-time legacy migration initializing immutable 24h trial timestamp
+          (
+            request.auth.uid == userId &&
+            !('trialStartedAt' in existing()) &&
+            incoming().trialStartedAt == request.time &&
+            incoming().subscriptionStatus == 'none' &&
+            incoming().subscriptionPlan == 'trial' &&
+            (!('subscriptionExpiresAt' in incoming()) || incoming().subscriptionExpiresAt == null) &&
+            (!('activatedBy' in incoming()) || incoming().activatedBy == null) &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['trialStartedAt', 'subscriptionStatus', 'subscriptionPlan', 'subscriptionExpiresAt', 'activatedBy', 'displayName', 'email', 'photoURL', 'updatedAt'])
+          ) ||
+          // Action 3: Owner profile metadata sync (cannot touch subscription or trial timestamps)
+          (
+            request.auth.uid == userId &&
+            incoming().trialStartedAt == existing().trialStartedAt &&
+            incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'updatedAt'])
+          )
+        );
+
+      allow delete: if isAdmin() && isValidId(userId) && userId != request.auth.uid;
+    }
+
+    // Jaib Wallet Payment Requests Collection
+    match /paymentRequests/{requestId} {
+      allow get: if isAuthenticatedAccount() && isValidId(requestId) && (existing().uid == request.auth.uid || isAdmin());
+      allow list: if isAuthenticatedAccount() && (resource.data.uid == request.auth.uid || isBootstrappedAdmin());
+
+      allow create: if isAuthenticatedAccount() &&
+        isValidId(requestId) &&
+        isValidPaymentRequest(incoming()) &&
+        incoming().requestId == requestId &&
+        incoming().uid == request.auth.uid &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        incoming().status == 'pending' &&
+        (!('adminNote' in incoming()) || incoming().adminNote == null) &&
+        (!('reviewedBy' in incoming()) || incoming().reviewedBy == null) &&
+        incoming().createdAt == request.time &&
+        incoming().updatedAt == request.time;
+
+      allow update: if isAuthenticatedAccount() &&
+        isValidId(requestId) &&
+        isValidPaymentRequest(incoming()) &&
+        isAdmin() &&
+        incoming().requestId == existing().requestId &&
+        incoming().uid == existing().uid &&
+        incoming().plan == existing().plan &&
+        incoming().amount == existing().amount &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['status', 'adminNote', 'reviewedBy', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    // Global Atomic Counter for Sequential Ticket Numbering
+    match /counters/{counterId} {
+      allow get: if isAuthenticatedAccount() && isValidId(counterId) && counterId == 'tickets';
+      allow list: if false;
+      allow create: if isAuthenticatedAccount() &&
+        isValidId(counterId) &&
+        counterId == 'tickets' &&
+        isValidCounter(incoming()) &&
+        incoming().currentTicket == 1;
+      allow update: if isAuthenticatedAccount() &&
+        isValidId(counterId) &&
+        counterId == 'tickets' &&
+        isValidCounter(incoming()) &&
+        incoming().currentTicket == existing().currentTicket + 1 &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['currentTicket', 'updatedAt']);
+      allow delete: if false;
+    }
+
+    // Health check test connection document
+    match /test/{testId} {
+      allow get: if isValidId(testId);
+      allow list, write: if false;
+    }
+  }
+}
