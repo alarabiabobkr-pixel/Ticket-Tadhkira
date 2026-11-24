@@ -1,0 +1,105 @@
+{
+  "byseCode": "6sispgr02r97",
+  "channelId": "-1004389672836",
+  "quality": "720p-direct",
+  "title": "grand-theft-auto-vi-an-extended-look-hd720",
+  "durationSeconds": 1610,
+  "rawSegmentCount": 161,
+  "targetDuration": 50,
+  "complete": false,
+  "nextRawIndex": 52,
+  "totalBytes": 72728928,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 601976,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHiFrBVlGlCO9HmM9XayjDbqCCdX87wACPyYAAmgoKFBLz9zoB-vk3D0E",
+      "msgId": 7713
+    },
+    {
+      "index": 1,
+      "duration": 10,
+      "bytes": 1919480,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHiJrBVlI0vpHyP8AAS3xV6H7z_XcK7QAAkAmAAJoKChQs6rGLYIlTGM9BA",
+      "msgId": 7714
+    },
+    {
+      "index": 2,
+      "duration": 50,
+      "bytes": 5683992,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHiNrBVlMHAzQEY9VjqNIf3ntAnhz2gACQSYAAmgoKFDiVdqgeikevj0E",
+      "msgId": 7715
+    },
+    {
+      "index": 3,
+      "duration": 50,
+      "bytes": 4971096,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHiRrBVlN1ZPMzqC2U9kT6Sde6jBN1QACQiYAAmgoKFDW_F0FWtZnfj0E",
+      "msgId": 7716
+    },
+    {
+      "index": 4,
+      "duration": 50,
+      "bytes": 5085400,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHiVrBVlOwn7Fwumx2XYv5QgoeeGhRAACQyYAAmgoKFAwgPucQvG7Dj0E",
+      "msgId": 7717
+    },
+    {
+      "index": 5,
+      "duration": 50,
+      "bytes": 6688664,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHiZrBVlQuZte0V0WPFwyuumMw6dG1QACRCYAAmgoKFAakVnJlOp8Hj0E",
+      "msgId": 7718
+    },
+    {
+      "index": 6,
+      "duration": 40,
+      "bytes": 6324320,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHidrBVlRVzqqEMp4MVQceAPdj8sSDwACRSYAAmgoKFD2PCWJLqAznT0E",
+      "msgId": 7719
+    },
+    {
+      "index": 7,
+      "duration": 40,
+      "bytes": 6384480,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHihrBVlUx0XPuGO2ffJu6N-WlvmJIwACRiYAAmgoKFDcf62TyyEfRj0E",
+      "msgId": 7720
+    },
+    {
+      "index": 8,
+      "duration": 50,
+      "bytes": 6619480,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHilrBVlWA-81OHdciPWvUckvPbXRcAACRyYAAmgoKFDvZu0VHDH4tj0E",
+      "msgId": 7721
+    },
+    {
+      "index": 9,
+      "duration": 50,
+      "bytes": 6342744,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHiprBVlXG5mn3mclYFlOXRAj-mIlZAACSCYAAmgoKFAK4FQbdKlCmj0E",
+      "msgId": 7722
+    },
+    {
+      "index": 10,
+      "duration": 50,
+      "bytes": 7395544,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHitrBVlZgpaYadoKIG-E6AYQFw9hhAACSSYAAmgoKFDgDot9SVMutT0E",
+      "msgId": 7723
+    },
+    {
+      "index": 11,
+      "duration": 40,
+      "bytes": 6312288,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHixrBVlbX8k1EN1dixFVHPgjtNplCQACSiYAAmgoKFAgNGbs3qnNTj0E",
+      "msgId": 7724
+    },
+    {
+      "index": 12,
+      "duration": 30,
+      "bytes": 8399464,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACHi1rBVmBcbYyjRDVDMEQexSGIJDH0QACSyYAAmgoKFBDjew6waIqkT0E",
+      "msgId": 7725
+    }
+  ]
+}

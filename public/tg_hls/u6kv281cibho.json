@@ -1,0 +1,28 @@
+{
+  "byseCode": "u6kv281cibho",
+  "channelId": "-1004401107496",
+  "quality": "720p-direct",
+  "title": "Ihtimal Hob S01E43",
+  "durationSeconds": 1897,
+  "rawSegmentCount": 190,
+  "targetDuration": 45,
+  "complete": false,
+  "nextRawIndex": 2,
+  "totalBytes": 3252400,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 1735992,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACGf9rBVlcvSqwKqGJDjySk_eyva2tZAAC9CcAAqanKVAP0GlkCrX_lz0E",
+      "msgId": 6655
+    },
+    {
+      "index": 1,
+      "duration": 11.08,
+      "bytes": 1516408,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACGgABawVZgiLRzn1T27-M4o7SfMdlFTEAAvUnAAKmpylQGaB1jJtyZo09BA",
+      "msgId": 6656
+    }
+  ]
+}
