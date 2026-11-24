@@ -1,0 +1,35 @@
+{
+  "byseCode": "uvx6cfvzoc0u",
+  "channelId": "-1004438628400",
+  "quality": "720p-direct",
+  "title": "Doroob Al MarjalaS03E25 WEB-DL AKWAM",
+  "durationSeconds": 38,
+  "rawSegmentCount": 4,
+  "targetDuration": 45,
+  "complete": true,
+  "nextRawIndex": 4,
+  "totalBytes": 5680608,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 13.52,
+      "bytes": 1726968,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE41rBR4WnOLdVRRMY2qozbTAJyliegACvScAAj5sKVANRFygGAjcWj0E",
+      "msgId": 5005
+    },
+    {
+      "index": 1,
+      "duration": 6.96,
+      "bytes": 1350968,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE45rBR4WQSN2EJvY8Tmgh4r0Kyzz1gACvicAAj5sKVD6t4qNRqAneD0E",
+      "msgId": 5006
+    },
+    {
+      "index": 2,
+      "duration": 17.8,
+      "bytes": 2602672,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE49rBR4X2BcCJYPsolHq0VTytr7yGgACvycAAj5sKVBR1MZBAAF3vQo9BA",
+      "msgId": 5007
+    }
+  ]
+}

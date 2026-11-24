@@ -5,10 +5,10 @@
   "title": "Doroob Al MarjalaS03E26 WEB-DL AKWAM",
   "durationSeconds": 2356,
   "rawSegmentCount": 235,
-  "targetDuration": 53,
-  "complete": false,
-  "nextRawIndex": 193,
-  "totalBytes": 289141368,
+  "targetDuration": 59,
+  "complete": true,
+  "nextRawIndex": 235,
+  "totalBytes": 342287464,
   "segments": [
     {
       "index": 0,
@@ -317,6 +317,69 @@
       "bytes": 6926296,
       "fileId": "BQACAgQAAyEGAAMBCJAYMAACDX1rAyDhRATy1ZPzu10gqWE9_lPphAACtSUAAvyqIFDzU6yI_Dv4AT0E",
       "msgId": 3453
+    },
+    {
+      "index": 44,
+      "duration": 45.04,
+      "bytes": 5515544,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5BrBR4aBI9sDqd1PLdW4JJUhKmURwACwCcAAj5sKVC6U8sNHW67hj0E",
+      "msgId": 5008
+    },
+    {
+      "index": 45,
+      "duration": 43.12,
+      "bytes": 6525856,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5FrBR4c6lIfiDznLg_OdXETjcNgQwACwScAAj5sKVCr2ficEV4EMz0E",
+      "msgId": 5009
+    },
+    {
+      "index": 46,
+      "duration": 47,
+      "bytes": 4787608,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5JrBR4df2ig3X6RdCF3icsxCePt0QACwicAAj5sKVCKz_5ZZMcmVj0E",
+      "msgId": 5010
+    },
+    {
+      "index": 47,
+      "duration": 58.4,
+      "bytes": 6225432,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5NrBR5InY4IGzhdo5jsGkBUFknW-QACwycAAj5sKVApPGzq8DxxwT0E",
+      "msgId": 5011
+    },
+    {
+      "index": 48,
+      "duration": 50,
+      "bytes": 6860120,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5RrBR5K1dZa4qnM3AHA62TnRrQWvAACxCcAAj5sKVDpwdMifjmGnz0E",
+      "msgId": 5012
+    },
+    {
+      "index": 49,
+      "duration": 50,
+      "bytes": 6622488,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5VrBR5N3sBtvOr57qc0pMp6dN4SpQACxScAAj5sKVCrDoqhVBufMT0E",
+      "msgId": 5013
+    },
+    {
+      "index": 50,
+      "duration": 50,
+      "bytes": 6396888,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5ZrBR5S4Kjmm49CGpv15sRjIKDuoQACxicAAj5sKVA0x7P_F_naoD0E",
+      "msgId": 5014
+    },
+    {
+      "index": 51,
+      "duration": 50,
+      "bytes": 7055640,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5drBR5Vm21r9XlW2WZWil2eHyT8LgACxycAAj5sKVCsc-wMD6XVLT0E",
+      "msgId": 5015
+    },
+    {
+      "index": 52,
+      "duration": 27,
+      "bytes": 3156520,
+      "fileId": "BQACAgQAAyEGAAMBCJAYMAACE5hrBR5XivQxkkIWwS_0U-92fxcCgAACyCcAAj5sKVAQp1n4KRQmcz0E",
+      "msgId": 5016
     }
   ]
 }
