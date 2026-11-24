@@ -1,0 +1,35 @@
+{
+  "byseCode": "ijuyk0s33htp",
+  "channelId": "-1004401107496",
+  "quality": "720p-direct",
+  "title": "Ihtimal Hob S01E50",
+  "durationSeconds": 1832,
+  "rawSegmentCount": 183,
+  "targetDuration": 57,
+  "complete": false,
+  "nextRawIndex": 7,
+  "totalBytes": 10843464,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 1702904,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACGwNrBZQGCd6PkQUgZ6W8A34P4uSdKwACyiYAAqanMVCcgQwnyTKX7z0E",
+      "msgId": 6915
+    },
+    {
+      "index": 1,
+      "duration": 11.04,
+      "bytes": 1522424,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACGwRrBZQICezjcYuwEilvSuLFNXwtqAACyyYAAqanMVAs2iEjJ4dpdD0E",
+      "msgId": 6916
+    },
+    {
+      "index": 2,
+      "duration": 56.84,
+      "bytes": 7618136,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACGwVrBZQL6vGnJfzAqRzUly6byKbf3QACzCYAAqanMVBZBl3K76EL-z0E",
+      "msgId": 6917
+    }
+  ]
+}
