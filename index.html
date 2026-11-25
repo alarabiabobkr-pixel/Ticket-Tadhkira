@@ -260,11 +260,11 @@
   <script src="/catalog.js?v=20261121_v119" defer></script>
   <script src="/live_channels.js?v=20261115_v100" defer></script>
 
-  <link rel="preload" href="/css/style.css?v=20261123_v121" as="style" />
-  <link rel="preload" href="/js/app.js?v=20261123_v121" as="script" />
+  <link rel="preload" href="/css/style.css?v=20261125_v128" as="style" />
+  <link rel="preload" href="/js/app.js?v=20261125_v128" as="script" />
   <link rel="preload" href="/js/prayer.js?v=20261117_v110" as="script" />
   <link rel="preload" href="/js/auth.bundle.js?v=20261120_v115" as="script" />
-  <link rel="stylesheet" href="/css/style.css?v=20261123_v121" />
+  <link rel="stylesheet" href="/css/style.css?v=20261125_v128" />
 </head>
 <body class="bg-dark-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-brand selection:text-dark-950 w-full overflow-x-hidden">
 
@@ -1062,14 +1062,46 @@
           </div>
         </div>
 
+        <!-- Resume or Start Over Prompt Overlay (VOD with saved progress) -->
+        <div id="vodResumePromptOverlay" class="vod-resume-overlay hidden">
+          <div class="vod-resume-card space-y-4">
+            <div class="vod-resume-icon">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+            </div>
+            <div class="space-y-1">
+              <h4 id="vodResumePromptTitle" class="text-sm sm:text-base font-black text-white line-clamp-1">استكمال المشاهدة</h4>
+              <p class="text-xs sm:text-sm text-slate-300 font-semibold">
+                توقفت سابقاً عند <span id="vodResumeTimeLabel" class="text-amber-400 font-black font-mono" dir="ltr">00:00</span>
+              </p>
+            </div>
+            <div class="flex flex-col sm:flex-row items-stretch justify-center gap-2.5 pt-1">
+              <button
+                type="button"
+                id="vodResumeContinueBtn"
+                onclick="confirmVodResumeChoice(true)"
+                class="flex-1 px-4 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-dark-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg"
+              >
+                <i class="fa-solid fa-play text-xs"></i>
+                <span>استئناف المشاهدة</span>
+              </button>
+              <button
+                type="button"
+                id="vodResumeRestartBtn"
+                onclick="confirmVodResumeChoice(false)"
+                class="flex-1 px-4 py-2.5 rounded-xl bg-dark-800 hover:bg-dark-700 text-slate-100 border border-dark-border font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <i class="fa-solid fa-rotate-right text-xs"></i>
+                <span>البدء من جديد</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Live HLS Video Player Stage -->
         <div id="flynetVideoWrapper" class="w-full h-full relative hidden bg-black flex items-center justify-center">
           <video id="flynetPlayer" class="w-full h-full object-contain" playsinline controls preload="auto"></video>
           <div id="flynetBufferOverlay" class="flynet-buffer-overlay hidden" aria-hidden="true">
-            <div class="flynet-buffer-pill">
-              <i class="fa-solid fa-circle-notch fa-spin text-brand"></i>
-              <span id="flynetBufferText">جاري تحميل المشهد...</span>
-            </div>
+            <div class="flynet-buffer-ring"></div>
           </div>
         </div>
 
@@ -1359,7 +1391,7 @@
   <!-- ========================================================================= -->
   <!-- CORE ENGINE SCRIPT -->
   <!-- ========================================================================= -->
-  <script src="/js/app.js?v=20261123_v121" defer></script>
+  <script src="/js/app.js?v=20261125_v128" defer></script>
   <!-- SANAA ADHAN CORNER ALERT ENGINE -->
   <script src="/js/prayer.js?v=20261117_v110" defer></script>
   <!-- GOOGLE AUTH & VIP SUBSCRIPTION ENGINE -->

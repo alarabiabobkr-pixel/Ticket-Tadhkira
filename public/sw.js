@@ -1,10 +1,22 @@
 // Service Worker for Tadhkira VIP (تذكرة دخول)
-// High Performance Fresh-First & Fast Cache Engine (v121)
-const CACHE_VERSION = 'v121_smooth_buffer';
+// High Performance Fresh-First & Fast Cache Engine (v128)
+const CACHE_VERSION = 'v128_instant_stream';
 const CACHE_STATIC = `tadhkira-static-${CACHE_VERSION}`;
 const CACHE_IMAGES = `tadhkira-images-${CACHE_VERSION}`;
 const CACHE_CDN = `tadhkira-cdn-${CACHE_VERSION}`;
 const CACHE_OFFLINE_VOD = 'tadhkira-offline-vod-v1';
+let hasOfflineVodCache = false;
+
+async function syncOfflineVodCacheFlag() {
+  try {
+    const cache = await caches.open(CACHE_OFFLINE_VOD);
+    const keys = await cache.keys();
+    hasOfflineVodCache = keys.length > 0;
+  } catch (_) {
+    hasOfflineVodCache = false;
+  }
+}
+void syncOfflineVodCacheFlag();
 
 const STATIC_PRECACHE = [
   '/',
@@ -72,16 +84,23 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    }).then(() => self.clients.claim())
+    }).then(() => syncOfflineVodCacheFlag()).then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event && event.data && event.data.type === 'SYNC_OFFLINE_VOD_FLAG') {
+    void syncOfflineVodCacheFlag();
+  }
 });
 
 self.addEventListener('fetch', (event) => {
   const request = event.request;
   const url = new URL(request.url);
 
-  // Serve saved offline Telegram HLS playlists/segments directly from Cache Storage (0 MB when cached)
+  // Only intercept Telegram HLS requests in SW when user has saved offline movies/episodes
   const isTelegramVodRequest =
+    hasOfflineVodCache &&
     request.method === 'GET' &&
     !request.headers.get('range') &&
     (url.pathname.startsWith('/api/tg-playlist/') ||
@@ -121,10 +140,10 @@ self.addEventListener('fetch', (event) => {
 
   if (isGoogleOrFirebaseApi || isVideoOrStream) return;
 
-  // 1. Navigation requests (HTML shell) -> Network first, fallback to cached
+  // 1. Navigation requests (HTML shell) -> Network first (bypass HTTP cache), fallback to cached
   if (request.mode === 'navigate') {
     event.respondWith(
-      fetch(request).then((networkResponse) => {
+      fetch(new Request(request, { cache: 'no-store' })).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const clone = networkResponse.clone();
           caches.open(CACHE_STATIC).then((cache) => cache.put('/index.html', clone));

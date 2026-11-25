@@ -145,17 +145,131 @@ function getSavedVodResumeTime(mediaId) {
   }
 }
 
-function saveVodResumeTime(mediaId, seconds) {
+const SERIES_LAST_EP_KEY = 'tadhkira_series_last_ep_v1';
+
+function getSavedSeriesLastEpisode(seriesId) {
+  if (!seriesId) return 0;
+  try {
+    const map = JSON.parse(localStorage.getItem(SERIES_LAST_EP_KEY) || '{}');
+    return Number(map[seriesId]) || 0;
+  } catch (_) {
+    return 0;
+  }
+}
+
+function saveSeriesLastEpisode(seriesId, epNum) {
+  if (!seriesId || !Number.isFinite(Number(epNum))) return;
+  try {
+    const map = JSON.parse(localStorage.getItem(SERIES_LAST_EP_KEY) || '{}');
+    map[seriesId] = Number(epNum);
+    localStorage.setItem(SERIES_LAST_EP_KEY, JSON.stringify(map));
+  } catch (_) {}
+}
+
+function saveVodResumeTime(mediaId, seconds, duration) {
   if (!mediaId || !Number.isFinite(seconds)) return;
   try {
     const map = JSON.parse(localStorage.getItem(VOD_RESUME_STORAGE_KEY) || '{}');
-    if (seconds < 10) {
+    const finishedNearEnd = Number.isFinite(duration) && duration > 60 && seconds >= duration - 25;
+    if (seconds < 3 || finishedNearEnd) {
       delete map[mediaId];
     } else {
       map[mediaId] = Math.floor(seconds);
     }
     localStorage.setItem(VOD_RESUME_STORAGE_KEY, JSON.stringify(map));
   } catch (_) {}
+}
+
+function flushActiveVodResumeTime() {
+  const item = appState && appState.currentItem;
+  if (!item || item.category === 'live' || !item.id) return;
+  const video = document.getElementById('flynetPlayer');
+  if (!video || !Number.isFinite(video.currentTime) || video.currentTime <= 0) return;
+  saveVodResumeTime(item.id, video.currentTime, video.duration);
+}
+
+if (typeof window !== 'undefined') {
+  window.addEventListener('pagehide', flushActiveVodResumeTime);
+  window.addEventListener('beforeunload', flushActiveVodResumeTime);
+}
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') {
+      flushActiveVodResumeTime();
+    }
+  });
+}
+
+let pendingVodResumeAction = null;
+
+function formatResumeClock(totalSeconds) {
+  const sec = Math.max(0, Math.floor(Number(totalSeconds) || 0));
+  const hrs = Math.floor(sec / 3600);
+  const mins = Math.floor((sec % 3600) / 60);
+  const secs = sec % 60;
+  if (hrs > 0) {
+    return `${hrs}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+  }
+  return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+}
+
+function hideVodResumePrompt() {
+  pendingVodResumeAction = null;
+  const overlay = document.getElementById('vodResumePromptOverlay');
+  if (overlay) overlay.classList.add('hidden');
+}
+
+function showVodResumePrompt(url, item, savedSec) {
+  const overlay = document.getElementById('vodResumePromptOverlay');
+  if (!overlay) {
+    playInternalStream(url, item);
+    return;
+  }
+
+  // Stop any prior active stream immediately so nothing buffers until user picks
+  if (appState.hls) {
+    try {
+      appState.hls.stopLoad();
+      appState.hls.destroy();
+    } catch (e) {}
+    appState.hls = null;
+  }
+  const video = document.getElementById('flynetPlayer');
+  if (video) {
+    try {
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    } catch (e) {}
+  }
+  setPlayerBufferingUi(false);
+
+  const waitingWrapper = document.getElementById('playerWaitingWrapper');
+  const videoWrapper = document.getElementById('flynetVideoWrapper');
+  const fullWrapper = document.getElementById('fullPlayerWrapper');
+  const fullIframe = document.getElementById('flynetFullPlayerIframe');
+  if (waitingWrapper) waitingWrapper.classList.add('hidden');
+  if (videoWrapper) videoWrapper.classList.add('hidden');
+  if (fullWrapper) fullWrapper.classList.add('hidden');
+  if (fullIframe) fullIframe.src = 'about:blank';
+
+  const titleEl = document.getElementById('vodResumePromptTitle');
+  const timeEl = document.getElementById('vodResumeTimeLabel');
+  if (titleEl) titleEl.textContent = (item && item.title) || 'استكمال المشاهدة';
+  if (timeEl) timeEl.textContent = formatResumeClock(savedSec);
+
+  pendingVodResumeAction = { url, item, savedSec };
+  overlay.classList.remove('hidden');
+}
+
+function confirmVodResumeChoice(shouldResume) {
+  const action = pendingVodResumeAction;
+  hideVodResumePrompt();
+  if (!action || !action.url || !action.item) return;
+  if (!shouldResume && action.item.id) {
+    saveVodResumeTime(action.item.id, 0);
+  }
+  playInternalStream(action.url, action.item);
 }
 
 // =========================================================================
@@ -2028,9 +2142,11 @@ function handleCardClick(itemId) {
   }
   if (item.category === 'series' || item.type === 'series' || (Array.isArray(item.episodes) && item.episodes.length > 0)) {
     appState.currentSeries = item;
-    const initialEp = (item.episodes && item.episodes.length > 0 && item.episodes[0].episodeNum !== undefined)
+    const savedEp = getSavedSeriesLastEpisode(item.id);
+    const defaultEp = (item.episodes && item.episodes.length > 0 && item.episodes[0].episodeNum !== undefined)
       ? item.episodes[0].episodeNum
       : 1;
+    const initialEp = savedEp > 0 ? savedEp : defaultEp;
     switchSeriesEpisode(initialEp);
   } else {
     openPlayerModal(item.id);
@@ -2039,9 +2155,11 @@ function handleCardClick(itemId) {
 
 function switchSeriesEpisode(epNum) {
   if (!appState.currentSeries) return;
+  flushActiveVodResumeTime();
   const series = appState.currentSeries;
   const epData = (series.episodes && series.episodes.find(e => e.episodeNum === epNum)) || (series.episodes && series.episodes[epNum - 1]) || (series.episodes && series.episodes[0]);
   const currentEpNum = (epData && epData.episodeNum !== undefined) ? epData.episodeNum : epNum;
+  saveSeriesLastEpisode(series.id, currentEpNum);
   const epItem = {
     id: `ep-${series.id}-${currentEpNum}`,
     title: `${series.title} - ${epData && epData.title ? epData.title : `الحلقة ${currentEpNum}`}`,
@@ -2297,6 +2415,7 @@ function renderVodSourceSwitcherBar(item, activeKind) {
 function switchVodPlaybackServer(kind) {
   const item = appState.currentItem;
   if (!item) return;
+  flushActiveVodResumeTime();
   if (kind === 'telegram_720') {
     appState.preferredVodSource = 'telegram_720';
   } else {
@@ -2410,6 +2529,7 @@ async function removeTelegramMovieOffline(tgCode) {
 
 function launchPlayerModalWithItem(item) {
   if (!item) return;
+  hideVodResumePrompt();
   appState.currentItem = item;
   const modal = document.getElementById('playerModal');
   const isLive = item.category === 'live' || item.type === 'live';
@@ -2563,7 +2683,12 @@ function launchPlayerModalWithItem(item) {
 
   if (hasDirectStream) {
     if (waitingWrapper) waitingWrapper.classList.add('hidden');
-    playInternalStream(effectiveStreamUrl, item);
+    const savedResumeSec = (!isLive && item.id) ? getSavedVodResumeTime(item.id) : 0;
+    if (!isLive && savedResumeSec >= 3) {
+      showVodResumePrompt(effectiveStreamUrl, item, savedResumeSec);
+    } else {
+      playInternalStream(effectiveStreamUrl, item);
+    }
   } else if (hasOfficialLiveEmbed) {
     if (waitingWrapper) waitingWrapper.classList.add('hidden');
     const ep = item.episodeNum || 1;
@@ -2593,10 +2718,8 @@ function launchPlayerModalWithItem(item) {
   }
 }
 
-function setPlayerBufferingUi(isBusy, label = 'جاري تحميل المشهد...') {
+function setPlayerBufferingUi(isBusy) {
   const overlay = document.getElementById('flynetBufferOverlay');
-  const textEl = document.getElementById('flynetBufferText');
-  if (textEl && label) textEl.textContent = label;
   if (!overlay) return;
   if (isBusy) overlay.classList.remove('hidden');
   else overlay.classList.add('hidden');
@@ -2694,43 +2817,150 @@ function playInternalStream(url, item) {
   };
 
   let lastSavedSec = 0;
+  const isVodItem = Boolean(item && item.category !== 'live');
+  let initialPrebufferPending = isVodItem;
+  let prebufferFallbackTimer = null;
+
+  const getBufferedAheadSec = () => {
+    if (!video || !video.buffered || !video.buffered.length) return 0;
+    const t = Number.isFinite(video.currentTime) ? video.currentTime : 0;
+    const end = getEffectiveBufferedEnd(video);
+    return Math.max(0, end - t);
+  };
+
+  const clearPrebufferTimer = () => {
+    if (prebufferFallbackTimer) {
+      clearTimeout(prebufferFallbackTimer);
+      prebufferFallbackTimer = null;
+    }
+  };
+
+  const finishPrebufferAndPlay = (expectedHls) => {
+    if (!initialPrebufferPending) return;
+    initialPrebufferPending = false;
+    clearPrebufferTimer();
+    if (expectedHls && appState.hls !== expectedHls) return;
+    if (appState.currentItem !== item) return;
+    setPlayerBufferingUi(false);
+
+    const attemptPlay = () => {
+      try {
+        if (appState.player && typeof appState.player.play === 'function') {
+          return appState.player.play();
+        }
+        return video.play();
+      } catch (err) {
+        return Promise.reject(err);
+      }
+    };
+
+    const p = attemptPlay();
+    if (p && typeof p.catch === 'function') {
+      p.catch(() => {
+        if (appState.currentItem !== item) return;
+        video.muted = true;
+        const mutedAttempt = attemptPlay();
+        if (mutedAttempt && typeof mutedAttempt.then === 'function') {
+          mutedAttempt.then(() => {
+            showToast('🔇 بدأ التشغيل — اضغط على أيقونة الصوت لتشغيل الصوت');
+          }).catch(() => {
+            setPlayerBufferingUi(false);
+          });
+        }
+      });
+    }
+  };
+
+  const checkPrebufferReady = (expectedHls) => {
+    if (!initialPrebufferPending) return;
+    if (expectedHls && appState.hls !== expectedHls) return;
+    const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : Infinity;
+    const remaining = Math.max(0, duration - (video.currentTime || 0));
+    const requiredSec = Math.min(4.2, Math.max(1.5, remaining - 0.5));
+    if (getBufferedAheadSec() >= requiredSec || video.readyState >= 4) {
+      finishPrebufferAndPlay(expectedHls);
+    }
+  };
+
+  const schedulePrebufferFallback = (expectedHls) => {
+    clearPrebufferTimer();
+    prebufferFallbackTimer = setTimeout(() => {
+      if (!initialPrebufferPending) return;
+      if (expectedHls && appState.hls !== expectedHls) return;
+      if (appState.currentItem !== item) return;
+      if (video.readyState >= 2) {
+        finishPrebufferAndPlay(expectedHls);
+      } else {
+        // Beyond 5s on slow network: release lock so playback starts the instant first frames arrive
+        initialPrebufferPending = false;
+        video.play().catch(() => {});
+      }
+    }, 5000);
+  };
+
   video.ontimeupdate = () => {
     syncPlayerBufferIndicator(video);
     if (!item || item.category === 'live' || !item.id) return;
     const nowSec = Math.floor(video.currentTime || 0);
-    if (Math.abs(nowSec - lastSavedSec) >= 5) {
+    if (nowSec >= 3 && Math.abs(nowSec - lastSavedSec) >= 2) {
       lastSavedSec = nowSec;
-      saveVodResumeTime(item.id, nowSec);
+      saveVodResumeTime(item.id, nowSec, video.duration);
     }
   };
-  video.onprogress = () => syncPlayerBufferIndicator(video);
+  video.onpause = () => flushActiveVodResumeTime();
+  video.onended = () => {
+    if (item && item.category !== 'live' && item.id) {
+      saveVodResumeTime(item.id, 0);
+    }
+  };
+  video.onprogress = () => {
+    syncPlayerBufferIndicator(video);
+    checkPrebufferReady(appState.hls);
+  };
   video.onseeking = () => {
     setPlayerBufferingUi(true, 'جاري الانتقال إلى المشهد...');
     syncPlayerBufferIndicator(video);
   };
   video.onwaiting = () => setPlayerBufferingUi(true, 'جاري تحميل المشهد...');
   video.oncanplay = () => {
-    setPlayerBufferingUi(false);
     syncPlayerBufferIndicator(video);
+    if (initialPrebufferPending) {
+      checkPrebufferReady(appState.hls);
+    } else {
+      setPlayerBufferingUi(false);
+      if (video.paused && appState.currentItem === item && isVodItem && video.currentTime === 0) {
+        video.play().catch(() => {});
+      }
+    }
   };
   video.onplaying = () => {
+    initialPrebufferPending = false;
+    clearPrebufferTimer();
     setPlayerBufferingUi(false);
     syncPlayerBufferIndicator(video);
   };
   video.onseeked = () => {
-    setPlayerBufferingUi(false);
+    if (!initialPrebufferPending) {
+      setPlayerBufferingUi(false);
+    } else {
+      checkPrebufferReady(appState.hls);
+    }
     syncPlayerBufferIndicator(video);
+    flushActiveVodResumeTime();
   };
 
+  const savedStartSec = (item && item.category !== 'live' && item.id) ? getSavedVodResumeTime(item.id) : 0;
+  let restoredNoticeShown = false;
+
   const tryRestoreVodPosition = () => {
-    if (!item || item.category === 'live' || !item.id) return;
-    const saved = getSavedVodResumeTime(item.id);
-    if (saved > 10 && (!video.duration || saved < video.duration - 25)) {
+    if (restoredNoticeShown || !item || item.category === 'live' || !item.id) return;
+    if (savedStartSec >= 3 && (!video.duration || savedStartSec < video.duration - 25)) {
+      restoredNoticeShown = true;
       try {
-        video.currentTime = saved;
-        const mins = Math.floor(saved / 60);
-        const secs = saved % 60;
-        showToast(`⏩ استئناف المشاهدة من الدقيقة ${mins}:${String(secs).padStart(2, '0')}`);
+        if (Math.abs((video.currentTime || 0) - savedStartSec) > 3) {
+          video.currentTime = savedStartSec;
+        }
+        showToast(`⏩ استئناف المشاهدة من ${formatResumeClock(savedStartSec)}`);
       } catch (_) {}
     }
   };
@@ -2739,16 +2969,19 @@ function playInternalStream(url, item) {
     let networkRetries = 0;
     let mediaRetries = 0;
     const isLiveStream = Boolean(item && item.category === 'live');
-    // Progressive native XHR loader + focused bandwidth (no competing multi-chunk downloads on slow lines)
+    // Progressive FetchLoader + 5s initial pre-buffer cushion for smooth VOD startup
     const hlsConfig = {
       enableWorker: true,
       progressive: true,
+      startPosition: !isLiveStream && savedStartSec >= 3 ? savedStartSec : -1,
       startFragPrefetch: false,
       lowLatencyMode: isLiveStream,
-      maxBufferLength: isLiveStream ? 45 : 120,
-      maxMaxBufferLength: isLiveStream ? 90 : 180,
-      maxBufferSize: 60 * 1000 * 1000,
+      maxBufferLength: isLiveStream ? 30 : 75,
+      maxMaxBufferLength: isLiveStream ? 60 : 120,
+      maxBufferSize: 55 * 1000 * 1000,
       backBufferLength: 20,
+      maxStarvationDelay: 2,
+      maxLoadingDelay: 2,
       fragLoadingTimeOut: 60000,
       fragLoadingMaxRetry: 10,
       fragLoadingRetryDelay: 700,
@@ -2765,18 +2998,36 @@ function playInternalStream(url, item) {
     const hls = new Hls(hlsConfig);
     hls.loadSource(url);
     hls.attachMedia(video);
+    hls.on(Hls.Events.BUFFER_APPENDED, () => {
+      syncPlayerBufferIndicator(video);
+      checkPrebufferReady(hls);
+    });
     hls.on(Hls.Events.FRAG_BUFFERED, () => {
       networkRetries = 0;
       mediaRetries = 0;
-      setPlayerBufferingUi(false);
       syncPlayerBufferIndicator(video);
+      if (initialPrebufferPending) {
+        checkPrebufferReady(hls);
+      } else {
+        setPlayerBufferingUi(false);
+      }
     });
     hls.on(Hls.Events.FRAG_LOAD_PROGRESS, () => {
       syncPlayerBufferIndicator(video);
+      checkPrebufferReady(hls);
     });
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       tryRestoreVodPosition();
-      video.play().catch(() => {});
+      if (!initialPrebufferPending) {
+        video.play().catch(() => {});
+      } else {
+        checkPrebufferReady(hls);
+        schedulePrebufferFallback(hls);
+      }
+    });
+    hls.on(Hls.Events.DESTROYING, () => {
+      initialPrebufferPending = false;
+      clearPrebufferTimer();
     });
     hls.on(Hls.Events.ERROR, (_event, data) => {
       if (!data) return;
@@ -2802,6 +3053,8 @@ function playInternalStream(url, item) {
         hls.recoverMediaError();
         return;
       }
+      initialPrebufferPending = false;
+      clearPrebufferTimer();
       try { hls.destroy(); } catch (e) {}
       if (appState.hls === hls) appState.hls = null;
       triggerLiveFallback();
@@ -2810,15 +3063,27 @@ function playInternalStream(url, item) {
   } else if (video.canPlayType('application/vnd.apple.mpegurl') || !url.includes('.m3u8')) {
     video.onerror = () => {
       video.onerror = null;
+      initialPrebufferPending = false;
+      clearPrebufferTimer();
       triggerLiveFallback();
     };
     video.onloadedmetadata = () => {
       video.onloadedmetadata = null;
       tryRestoreVodPosition();
+      if (!initialPrebufferPending) {
+        video.play().catch(() => {});
+      } else {
+        checkPrebufferReady(null);
+        schedulePrebufferFallback(null);
+      }
     };
     video.src = url;
-    video.play().catch(() => {});
+    if (!initialPrebufferPending) {
+      video.play().catch(() => {});
+    }
   } else {
+    initialPrebufferPending = false;
+    clearPrebufferTimer();
     triggerLiveFallback();
   }
 }
@@ -3344,10 +3609,12 @@ function reloadActivePlayer() {
     showToast('🔄 تم إعادة تحميل البث المباشر');
     return;
   }
+  flushActiveVodResumeTime();
   launchPlayerModalWithItem(item);
 }
 
 function closePlayerModal() {
+  hideVodResumePrompt();
   hideEmbedPopupNotice(true);
   const modal = document.getElementById('playerModal');
   const video = document.getElementById('flynetPlayer');
@@ -3381,6 +3648,7 @@ function closePlayerModal() {
     fullIframe.removeAttribute('width');
     fullIframe.removeAttribute('height');
   }
+  flushActiveVodResumeTime();
   if (video) {
     try {
       video.pause();
@@ -3920,7 +4188,7 @@ function getCachedCatalog() {
 if ('serviceWorker' in navigator) {
   if (window.self === window.top) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js?v=20261121_v119', { scope: '/' })
+      navigator.serviceWorker.register('/sw.js?v=20261125_v128', { scope: '/' })
         .then(reg => {
           console.log('[PWA] Service Worker active:', reg.scope);
           if (typeof reg.update === 'function') {
@@ -4412,3 +4680,4 @@ window.hydrateLazyImage = hydrateLazyImage;
 window.switchVodPlaybackServer = switchVodPlaybackServer;
 window.saveTelegramMovieOffline = saveTelegramMovieOffline;
 window.removeTelegramMovieOffline = removeTelegramMovieOffline;
+window.confirmVodResumeChoice = confirmVodResumeChoice;

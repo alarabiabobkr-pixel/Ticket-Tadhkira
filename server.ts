@@ -582,8 +582,8 @@ async function startServer() {
       res.setHeader('Cache-Control', manifest.complete ? 'public, max-age=3600' : 'no-cache');
       res.send(lines.join('\n'));
 
-      // Pre-warm first 2 segments into RAM & pre-resolve next 6 file paths in background
-      warmPlaylistAhead(getTelegramBotToken(), fileIds, 0, 2);
+      // Pre-resolve first 8 Telegram file paths in background without blocking segment #0 stream
+      warmPlaylistAhead(getTelegramBotToken(), fileIds, 0, 0);
     } catch (err: any) {
       res.status(500).send(err?.message || 'Failed to build playlist');
     }
@@ -612,17 +612,6 @@ async function startServer() {
       if (ramBuf) {
         sendBufferWithOptionalRange(req, res, ramBuf);
         return;
-      }
-
-      if (!req.headers.range) {
-        const inflight = tgSegInflight.get(rawId);
-        if (inflight) {
-          const awaitedBuf = await inflight;
-          if (awaitedBuf) {
-            sendBufferWithOptionalRange(req, res, awaitedBuf);
-            return;
-          }
-        }
       }
 
       const upstreamHeaders: Record<string, string> = {};
@@ -700,6 +689,9 @@ async function startServer() {
           try { nodeStream.destroy(); } catch (_) {}
         }
       });
+      if (typeof (res as any).flushHeaders === 'function') {
+        (res as any).flushHeaders();
+      }
       nodeStream.pipe(res);
     } catch (err: any) {
       if (!res.headersSent) {
@@ -1048,6 +1040,11 @@ async function startServer() {
     res.send('google-site-verification: googleaaffbd287cd065c7.html');
   });
 
+  app.get('/sw.js', (_req: Request, res: Response) => {
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+    res.sendFile(path.join(ROOT_DIR, 'public', 'sw.js'));
+  });
+
   app.use(express.static(path.join(ROOT_DIR, 'public')));
 
   if (process.env.NODE_ENV !== 'production') {
@@ -1067,7 +1064,10 @@ async function startServer() {
         const htmlPath = path.join(ROOT_DIR, 'index.html');
         let html = fs.readFileSync(htmlPath, 'utf8');
         html = await vite.transformIndexHtml(req.originalUrl, html);
-        res.status(200).set({ 'Content-Type': 'text/html; charset=utf-8' }).end(html);
+        res.status(200).set({
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+        }).end(html);
       } catch (e) {
         next(e);
       }
@@ -1080,6 +1080,7 @@ async function startServer() {
     app.use('*', (_req: Request, res: Response) => {
       const distIndex = path.join(distDir, 'index.html');
       const rootIndex = path.join(ROOT_DIR, 'index.html');
+      res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
       res.sendFile(fs.existsSync(distIndex) ? distIndex : rootIndex);
     });
   }
