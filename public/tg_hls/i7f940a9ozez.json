@@ -1,0 +1,63 @@
+{
+  "byseCode": "i7f940a9ozez",
+  "channelId": "-1004401107496",
+  "quality": "720p-direct",
+  "title": "Zanb Insani S01E05",
+  "durationSeconds": 2287,
+  "rawSegmentCount": 228,
+  "targetDuration": 53,
+  "complete": false,
+  "nextRawIndex": 26,
+  "totalBytes": 37582704,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 1038136,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACIhZrBxsTaZNstYyjjXXVnfOr8UwT0wACtiQAAjsWOFB_l8Ma60YonD0E",
+      "msgId": 8726
+    },
+    {
+      "index": 1,
+      "duration": 10.6,
+      "bytes": 1808184,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACIhdrBxsZUVLu6M6n5jIrU6YNFhh6cwACtyQAAjsWOFB2hZeIClpCVD0E",
+      "msgId": 8727
+    },
+    {
+      "index": 2,
+      "duration": 50.32,
+      "bytes": 6842072,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACIhhrBxsm4OfVSm8fF810bQOmK79fAQACuCQAAjsWOFCr4aHLDEf1Ez0E",
+      "msgId": 8728
+    },
+    {
+      "index": 3,
+      "duration": 41.96,
+      "bytes": 6640160,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACIhlrBxsvECe8384TtOgVLKJ_zw2XTgACuSQAAjsWOFCro48LvA40Kz0E",
+      "msgId": 8729
+    },
+    {
+      "index": 4,
+      "duration": 48.04,
+      "bytes": 6423960,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACIhprBxs5wXtrU49Xno5piRxsjGOIjgACuiQAAjsWOFDO6iuxlK2SBD0E",
+      "msgId": 8730
+    },
+    {
+      "index": 5,
+      "duration": 49.36,
+      "bytes": 7049624,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACIhtrBxtFBSwvHgSDV-lE-KsTI-Q1iAACuyQAAjsWOFDW1nbrYc-mGT0E",
+      "msgId": 8731
+    },
+    {
+      "index": 6,
+      "duration": 52.56,
+      "bytes": 7780568,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACIhxrBxtYpAABaS5M3Tz_gMCGVJQMq8gAArwkAAI7FjhQ9QstUueR_U89BA",
+      "msgId": 8732
+    }
+  ]
+}
