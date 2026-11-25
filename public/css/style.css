@@ -630,10 +630,85 @@ div[id*="netlify" i],
   direction: ltr;
   --plyr-color-main: #00d2ff;
   --plyr-video-control-background-hover: rgba(0, 210, 255, 0.22);
+  --plyr-range-track-background: rgba(255, 255, 255, 0.22);
+  --plyr-video-progress-buffered-background: rgba(255, 255, 255, 0.65);
+}
+
+#flynetVideoWrapper .plyr__progress {
+  position: relative;
+}
+
+#flynetVideoWrapper .plyr__progress input[type='range'],
+#flynetVideoWrapper .plyr__progress__buffer {
+  transition: height 0.16s ease, color 0.2s ease;
+}
+
+#flynetVideoWrapper .plyr__progress__buffer {
+  color: rgba(255, 255, 255, 0.68) !important;
+  background: rgba(255, 255, 255, 0.2) !important;
+  height: 5px !important;
+  border-radius: 9999px;
+}
+
+#flynetVideoWrapper .plyr__progress__buffer::-webkit-progress-bar {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 9999px;
+}
+
+#flynetVideoWrapper .plyr__progress__buffer::-webkit-progress-value {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+  transition: width 0.2s linear;
+}
+
+#flynetVideoWrapper .plyr__progress__buffer::-moz-progress-bar {
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-radius: 9999px;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+}
+
+#flynetVideoWrapper .plyr__progress:hover .plyr__progress__buffer,
+#flynetVideoWrapper .plyr__progress:hover input[type='range'] {
+  cursor: pointer;
 }
 
 #flynetVideoWrapper .plyr__controls {
   direction: ltr;
+}
+
+.flynet-buffer-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 22;
+  background: radial-gradient(circle, rgba(7, 9, 14, 0.45) 0%, rgba(7, 9, 14, 0) 68%);
+}
+
+.flynet-buffer-overlay.hidden {
+  display: none !important;
+}
+
+.flynet-buffer-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: rgba(7, 9, 14, 0.82);
+  border: 1px solid rgba(0, 210, 255, 0.4);
+  color: #f8fafc;
+  font-family: 'Cairo', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  direction: rtl;
 }
 
 #flynetVideoWrapper .plyr__controls [data-plyr="rewind"],

@@ -2593,159 +2593,46 @@ function launchPlayerModalWithItem(item) {
   }
 }
 
-const tgClientSegPrefetch = {
-  sessionId: 0,
-  orderedUrls: [],
-  urlToIndex: new Map(),
-  entries: new Map(), // url -> { status: 'pending'|'done'|'error', buf?: ArrayBuffer, promise?: Promise<ArrayBuffer|null>, controller?: AbortController, idx: number, sessionId: number }
-};
+function setPlayerBufferingUi(isBusy, label = 'جاري تحميل المشهد...') {
+  const overlay = document.getElementById('flynetBufferOverlay');
+  const textEl = document.getElementById('flynetBufferText');
+  if (textEl && label) textEl.textContent = label;
+  if (!overlay) return;
+  if (isBusy) overlay.classList.remove('hidden');
+  else overlay.classList.add('hidden');
+}
 
-function clearClientSegPrefetch() {
-  tgClientSegPrefetch.sessionId += 1;
-  tgClientSegPrefetch.orderedUrls = [];
-  tgClientSegPrefetch.urlToIndex.clear();
-  for (const entry of tgClientSegPrefetch.entries.values()) {
-    if (entry && entry.controller) {
-      try { entry.controller.abort(); } catch (_) {}
+function getEffectiveBufferedEnd(video) {
+  if (!video || !video.buffered || !video.buffered.length) return 0;
+  const t = Number.isFinite(video.currentTime) ? video.currentTime : 0;
+  let bestEnd = 0;
+  for (let i = 0; i < video.buffered.length; i++) {
+    const start = video.buffered.start(i);
+    const end = video.buffered.end(i);
+    if (t >= start - 1.5 && t <= end + 1.5) {
+      if (end > bestEnd) bestEnd = end;
     }
   }
-  tgClientSegPrefetch.entries.clear();
-}
-
-function isTelegramSegmentUrl(u) {
-  return typeof u === 'string' && (u.includes('/api/tg-seg/') || u.includes('/seg/'));
-}
-
-function startClientSegPrefetch(segUrl, idx, sessionId) {
-  if (!segUrl || !isTelegramSegmentUrl(segUrl) || !navigator.onLine) return;
-  if (sessionId !== tgClientSegPrefetch.sessionId) return;
-  if (tgClientSegPrefetch.entries.has(segUrl)) return;
-
-  const controller = typeof AbortController !== 'undefined' ? new AbortController() : null;
-  const entry = {
-    status: 'pending',
-    buf: null,
-    promise: null,
-    controller,
-    idx,
-    sessionId,
-  };
-
-  entry.promise = fetch(segUrl, {
-    signal: controller ? controller.signal : undefined,
-    credentials: 'same-origin',
-  })
-    .then(async (resp) => {
-      if (!resp.ok) throw new Error('HTTP ' + resp.status);
-      const ab = await resp.arrayBuffer();
-      if (sessionId !== tgClientSegPrefetch.sessionId || !tgClientSegPrefetch.entries.has(segUrl)) {
-        return null;
-      }
-      entry.status = 'done';
-      entry.buf = ab;
-      return ab;
-    })
-    .catch(() => {
-      if (sessionId === tgClientSegPrefetch.sessionId) {
-        entry.status = 'error';
-        tgClientSegPrefetch.entries.delete(segUrl);
-      }
-      return null;
-    });
-
-  tgClientSegPrefetch.entries.set(segUrl, entry);
-}
-
-function scheduleClientPrefetchAhead(currentUrl, lookAheadCount = 2) {
-  if (!currentUrl || !navigator.onLine) return;
-  const idx = tgClientSegPrefetch.urlToIndex.get(currentUrl);
-  if (idx === undefined) return;
-  const sessionId = tgClientSegPrefetch.sessionId;
-
-  // Abort and evict stale entries far behind current playback position
-  for (const [cachedUrl, entry] of tgClientSegPrefetch.entries.entries()) {
-    if (entry.idx < idx || entry.idx > idx + lookAheadCount + 1) {
-      if (entry.controller) {
-        try { entry.controller.abort(); } catch (_) {}
-      }
-      tgClientSegPrefetch.entries.delete(cachedUrl);
-    }
+  if (bestEnd === 0) {
+    bestEnd = video.buffered.end(video.buffered.length - 1);
   }
-
-  for (let offset = 1; offset <= lookAheadCount; offset++) {
-    const nextUrl = tgClientSegPrefetch.orderedUrls[idx + offset];
-    if (nextUrl) {
-      startClientSegPrefetch(nextUrl, idx + offset, sessionId);
-    }
-  }
+  return bestEnd;
 }
 
-function createTgTurboFragmentLoader(BaseLoader) {
-  return class TgTurboFragmentLoader extends BaseLoader {
-    constructor(config) {
-      super(config);
-      this._tgAborted = false;
-      this._tgUsingSuper = false;
-    }
-
-    abort() {
-      this._tgAborted = true;
-      if (this._tgUsingSuper) {
-        super.abort();
-      }
-    }
-
-    destroy() {
-      this._tgAborted = true;
-      super.destroy();
-    }
-
-    load(context, config, callbacks) {
-      const url = context && context.url;
-      const isRange = Boolean(context && (context.rangeStart || context.rangeEnd));
-
-      if (url && isTelegramSegmentUrl(url)) {
-        scheduleClientPrefetchAhead(url, 2);
-      }
-
-      const prefetched = (!isRange && url) ? tgClientSegPrefetch.entries.get(url) : null;
-      if (prefetched && (prefetched.status === 'done' || prefetched.status === 'pending')) {
-        const loader = this;
-        const deliverBuffer = (ab) => {
-          if (loader._tgAborted) return;
-          if (!ab || !ab.byteLength) {
-            tgClientSegPrefetch.entries.delete(url);
-            loader._tgUsingSuper = true;
-            super.load(context, config, callbacks);
-            return;
-          }
-          tgClientSegPrefetch.entries.delete(url);
-          const now = performance.now();
-          if (loader.stats) {
-            loader.stats.trequest = now;
-            loader.stats.tfirst = now;
-            loader.stats.tload = now;
-            loader.stats.loaded = ab.byteLength;
-            loader.stats.total = ab.byteLength;
-            loader.stats.loading = { start: now, first: now, end: now };
-          }
-          callbacks.onSuccess({ url, data: ab }, loader.stats, context, null);
-        };
-
-        if (prefetched.status === 'done' && prefetched.buf) {
-          Promise.resolve().then(() => deliverBuffer(prefetched.buf));
-          return;
-        }
-        if (prefetched.promise) {
-          prefetched.promise.then((ab) => deliverBuffer(ab));
-          return;
-        }
-      }
-
-      this._tgUsingSuper = true;
-      super.load(context, config, callbacks);
-    }
-  };
+function syncPlayerBufferIndicator(video) {
+  if (!video) return;
+  const container = getActivePlayerContainer();
+  if (!container) return;
+  const bufferBar = container.querySelector('.plyr__progress__buffer');
+  if (!bufferBar) return;
+  const duration = Number.isFinite(video.duration) && video.duration > 0 ? video.duration : 0;
+  if (!duration) {
+    bufferBar.value = 0;
+    return;
+  }
+  const endSec = getEffectiveBufferedEnd(video);
+  const pct = Math.max(0, Math.min(100, (endSec / duration) * 100));
+  bufferBar.value = Number.isFinite(pct) ? pct : 0;
 }
 
 function playInternalStream(url, item) {
@@ -2757,7 +2644,6 @@ function playInternalStream(url, item) {
     return;
   }
   hideEmbedPopupNotice(true);
-  clearClientSegPrefetch();
   const fullWrapper = document.getElementById('fullPlayerWrapper');
   const videoWrapper = document.getElementById('flynetVideoWrapper');
   const fullIframe = document.getElementById('flynetFullPlayerIframe');
@@ -2768,6 +2654,7 @@ function playInternalStream(url, item) {
 
   if (!video) return;
   initPlyr();
+  setPlayerBufferingUi(true, 'جاري تحميل المشغل...');
 
   if (appState.hls) {
     try { appState.hls.destroy(); } catch (e) {}
@@ -2780,6 +2667,7 @@ function playInternalStream(url, item) {
   }
 
   const triggerLiveFallback = () => {
+    setPlayerBufferingUi(false);
     if (item && item.category !== 'live') {
       showToast('⚠️ تعذر الاتصال بسيرفر تيليجرام حالياً، جرب تحديث المشغل أو المحاولة بعد لحظات.');
       return;
@@ -2805,15 +2693,33 @@ function playInternalStream(url, item) {
     }
   };
 
-  // Persist VOD resume timestamp smoothly for movies/series
   let lastSavedSec = 0;
   video.ontimeupdate = () => {
+    syncPlayerBufferIndicator(video);
     if (!item || item.category === 'live' || !item.id) return;
     const nowSec = Math.floor(video.currentTime || 0);
     if (Math.abs(nowSec - lastSavedSec) >= 5) {
       lastSavedSec = nowSec;
       saveVodResumeTime(item.id, nowSec);
     }
+  };
+  video.onprogress = () => syncPlayerBufferIndicator(video);
+  video.onseeking = () => {
+    setPlayerBufferingUi(true, 'جاري الانتقال إلى المشهد...');
+    syncPlayerBufferIndicator(video);
+  };
+  video.onwaiting = () => setPlayerBufferingUi(true, 'جاري تحميل المشهد...');
+  video.oncanplay = () => {
+    setPlayerBufferingUi(false);
+    syncPlayerBufferIndicator(video);
+  };
+  video.onplaying = () => {
+    setPlayerBufferingUi(false);
+    syncPlayerBufferIndicator(video);
+  };
+  video.onseeked = () => {
+    setPlayerBufferingUi(false);
+    syncPlayerBufferIndicator(video);
   };
 
   const tryRestoreVodPosition = () => {
@@ -2833,63 +2739,69 @@ function playInternalStream(url, item) {
     let networkRetries = 0;
     let mediaRetries = 0;
     const isLiveStream = Boolean(item && item.category === 'live');
-    const isTgStream = url.includes('/api/tg-playlist/') || url.includes('/playlist/');
-    const BaseLoader = Hls.DefaultConfig && Hls.DefaultConfig.loader;
+    // Progressive native XHR loader + focused bandwidth (no competing multi-chunk downloads on slow lines)
     const hlsConfig = {
       enableWorker: true,
       progressive: true,
-      startFragPrefetch: true,
+      startFragPrefetch: false,
       lowLatencyMode: isLiveStream,
-      maxBufferLength: isLiveStream ? 60 : 240,
-      maxMaxBufferLength: isLiveStream ? 120 : 600,
-      backBufferLength: 30,
-      fragLoadingTimeOut: 45000,
-      fragLoadingMaxRetry: 8,
-      fragLoadingRetryDelay: 500,
+      maxBufferLength: isLiveStream ? 45 : 120,
+      maxMaxBufferLength: isLiveStream ? 90 : 180,
+      maxBufferSize: 60 * 1000 * 1000,
+      backBufferLength: 20,
+      fragLoadingTimeOut: 60000,
+      fragLoadingMaxRetry: 10,
+      fragLoadingRetryDelay: 700,
+      fragLoadingMaxRetryTimeout: 8000,
       manifestLoadingTimeOut: 25000,
+      manifestLoadingMaxRetry: 4,
       highBufferWatchdogPeriod: 1,
-      nudgeOffset: 0.25,
-      nudgeMaxRetry: 12,
-      maxBufferHole: 2.0,
+      nudgeOffset: 0.3,
+      nudgeMaxRetry: 15,
+      maxBufferHole: 2.5,
       capLevelToPlayerSize: false
     };
-    if (isTgStream && BaseLoader && !isLiveStream) {
-      hlsConfig.fLoader = createTgTurboFragmentLoader(BaseLoader);
-    }
 
     const hls = new Hls(hlsConfig);
     hls.loadSource(url);
     hls.attachMedia(video);
-    hls.on(Hls.Events.LEVEL_LOADED, (_event, data) => {
-      if (!isTgStream || isLiveStream) return;
-      const frags = (data && data.details && data.details.fragments) || [];
-      if (frags.length > 0) {
-        tgClientSegPrefetch.orderedUrls = frags.map(f => f && f.url).filter(Boolean);
-        tgClientSegPrefetch.urlToIndex.clear();
-        tgClientSegPrefetch.orderedUrls.forEach((u, i) => tgClientSegPrefetch.urlToIndex.set(u, i));
-        // Preload segments #1 and #2 in parallel while segment #0 streams progressively
-        if (tgClientSegPrefetch.orderedUrls[0]) {
-          scheduleClientPrefetchAhead(tgClientSegPrefetch.orderedUrls[0], 2);
-        }
-      }
+    hls.on(Hls.Events.FRAG_BUFFERED, () => {
+      networkRetries = 0;
+      mediaRetries = 0;
+      setPlayerBufferingUi(false);
+      syncPlayerBufferIndicator(video);
+    });
+    hls.on(Hls.Events.FRAG_LOAD_PROGRESS, () => {
+      syncPlayerBufferIndicator(video);
     });
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
       tryRestoreVodPosition();
       video.play().catch(() => {});
     });
     hls.on(Hls.Events.ERROR, (_event, data) => {
-      if (!data || !data.fatal) return;
-      if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 3) {
-        networkRetries++;
-        hls.startLoad();
+      if (!data) return;
+      if (!data.fatal) {
+        if (data.details === 'bufferStalledError' && !video.paused) {
+          setPlayerBufferingUi(true, 'جاري تحسين البث...');
+        }
         return;
       }
-      if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 2) {
+      if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 6) {
+        networkRetries++;
+        setPlayerBufferingUi(true, 'إعادة الاتصال بالمقطع...');
+        const resumeAt = Number.isFinite(video.currentTime) && video.currentTime > 0 ? video.currentTime : -1;
+        setTimeout(() => {
+          if (appState.hls === hls) {
+            hls.startLoad(resumeAt);
+          }
+        }, Math.min(2500, networkRetries * 450));
+        return;
+      }
+      if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 4) {
         mediaRetries++;
         hls.recoverMediaError();
         return;
       }
-      clearClientSegPrefetch();
       try { hls.destroy(); } catch (e) {}
       if (appState.hls === hls) appState.hls = null;
       triggerLiveFallback();
@@ -3400,6 +3312,10 @@ function initPlyr() {
       if (container) {
         attachSeekButtonEnhancements(container);
       }
+      appState.player.on('progress', () => syncPlayerBufferIndicator(video));
+      appState.player.on('timeupdate', () => syncPlayerBufferIndicator(video));
+      appState.player.on('seeked', () => syncPlayerBufferIndicator(video));
+      appState.player.on('seeking', () => syncPlayerBufferIndicator(video));
     }
   } catch (e) {}
 }
@@ -3472,7 +3388,7 @@ function closePlayerModal() {
       video.load();
     } catch (e) {}
   }
-  clearClientSegPrefetch();
+  setPlayerBufferingUi(false);
   if (appState.hls) {
     try {
       appState.hls.stopLoad();

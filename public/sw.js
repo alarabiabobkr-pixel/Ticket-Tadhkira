@@ -1,6 +1,6 @@
 // Service Worker for Tadhkira VIP (تذكرة دخول)
-// High Performance Fresh-First & Fast Cache Engine (v120)
-const CACHE_VERSION = 'v120_telegram_only';
+// High Performance Fresh-First & Fast Cache Engine (v121)
+const CACHE_VERSION = 'v121_smooth_buffer';
 const CACHE_STATIC = `tadhkira-static-${CACHE_VERSION}`;
 const CACHE_IMAGES = `tadhkira-images-${CACHE_VERSION}`;
 const CACHE_CDN = `tadhkira-cdn-${CACHE_VERSION}`;
@@ -83,6 +83,7 @@ self.addEventListener('fetch', (event) => {
   // Serve saved offline Telegram HLS playlists/segments directly from Cache Storage (0 MB when cached)
   const isTelegramVodRequest =
     request.method === 'GET' &&
+    !request.headers.get('range') &&
     (url.pathname.startsWith('/api/tg-playlist/') ||
       url.pathname.startsWith('/api/tg-seg/') ||
       url.pathname.startsWith('/playlist/') ||

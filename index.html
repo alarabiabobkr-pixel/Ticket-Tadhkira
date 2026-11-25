@@ -260,11 +260,11 @@
   <script src="/catalog.js?v=20261121_v119" defer></script>
   <script src="/live_channels.js?v=20261115_v100" defer></script>
 
-  <link rel="preload" href="/css/style.css?v=20261121_v119" as="style" />
-  <link rel="preload" href="/js/app.js?v=20261122_v120" as="script" />
+  <link rel="preload" href="/css/style.css?v=20261123_v121" as="style" />
+  <link rel="preload" href="/js/app.js?v=20261123_v121" as="script" />
   <link rel="preload" href="/js/prayer.js?v=20261117_v110" as="script" />
   <link rel="preload" href="/js/auth.bundle.js?v=20261120_v115" as="script" />
-  <link rel="stylesheet" href="/css/style.css?v=20261121_v119" />
+  <link rel="stylesheet" href="/css/style.css?v=20261123_v121" />
 </head>
 <body class="bg-dark-950 text-slate-100 min-h-screen flex flex-col antialiased selection:bg-brand selection:text-dark-950 w-full overflow-x-hidden">
 
@@ -1065,6 +1065,12 @@
         <!-- Live HLS Video Player Stage -->
         <div id="flynetVideoWrapper" class="w-full h-full relative hidden bg-black flex items-center justify-center">
           <video id="flynetPlayer" class="w-full h-full object-contain" playsinline controls preload="auto"></video>
+          <div id="flynetBufferOverlay" class="flynet-buffer-overlay hidden" aria-hidden="true">
+            <div class="flynet-buffer-pill">
+              <i class="fa-solid fa-circle-notch fa-spin text-brand"></i>
+              <span id="flynetBufferText">جاري تحميل المشهد...</span>
+            </div>
+          </div>
         </div>
 
         <!-- Clean Direct Embed Video Player Iframe (Movies & Series) -->
@@ -1353,7 +1359,7 @@
   <!-- ========================================================================= -->
   <!-- CORE ENGINE SCRIPT -->
   <!-- ========================================================================= -->
-  <script src="/js/app.js?v=20261122_v120" defer></script>
+  <script src="/js/app.js?v=20261123_v121" defer></script>
   <!-- SANAA ADHAN CORNER ALERT ENGINE -->
   <script src="/js/prayer.js?v=20261117_v110" defer></script>
   <!-- GOOGLE AUTH & VIP SUBSCRIPTION ENGINE -->

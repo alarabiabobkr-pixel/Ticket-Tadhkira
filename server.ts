@@ -382,10 +382,10 @@ async function startServer() {
   const tgFilePathCache = new Map<string, { filePath: string; expiresAt: number }>();
   const tgFilePathInflight = new Map<string, Promise<string | null>>();
 
-  const SEG_RAM_TTL_MS = 3 * 60 * 1000;
-  const MAX_SEG_RAM_CACHE_BYTES = 110 * 1024 * 1024;
+  const SEG_RAM_TTL_MS = 4 * 60 * 1000;
+  const MAX_SEG_RAM_CACHE_BYTES = 128 * 1024 * 1024;
   const MAX_SINGLE_CACHEABLE_BYTES = 18 * 1024 * 1024;
-  const MAX_BG_PREFETCH_CONCURRENCY = 4;
+  const MAX_BG_PREFETCH_CONCURRENCY = 6;
 
   const tgSegRamCache = new Map<string, { buf: Buffer; expiresAt: number }>();
   const tgSegInflight = new Map<string, Promise<Buffer | null>>();
@@ -443,7 +443,8 @@ async function startServer() {
     const promise = (async () => {
       try {
         const gfResp = await fetch(
-          `https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(rawId)}`
+          `https://api.telegram.org/bot${token}/getFile?file_id=${encodeURIComponent(rawId)}`,
+          { signal: AbortSignal.timeout(12000) }
         );
         const gfData: any = await gfResp.json();
         if (!gfData.ok || !gfData.result?.file_path) {
@@ -475,7 +476,7 @@ async function startServer() {
         const filePath = await resolveTelegramFilePath(token, rawId);
         if (!filePath) return null;
         const upstreamUrl = `https://api.telegram.org/file/bot${token}/${filePath}`;
-        const tgResp = await fetch(upstreamUrl);
+        const tgResp = await fetch(upstreamUrl, { signal: AbortSignal.timeout(35000) });
         if (!tgResp.ok) {
           tgFilePathCache.delete(rawId);
           return null;
@@ -501,7 +502,7 @@ async function startServer() {
     for (let i = startIndex; i < endIdx; i++) {
       prefetchTelegramSegment(token, fileIds[i]);
     }
-    const pathWarmEnd = Math.min(fileIds.length, startIndex + 6);
+    const pathWarmEnd = Math.min(fileIds.length, startIndex + 8);
     for (let i = endIdx; i < pathWarmEnd; i++) {
       void resolveTelegramFilePath(token, fileIds[i]);
     }
@@ -600,10 +601,10 @@ async function startServer() {
       return;
     }
 
-    // Trigger non-blocking server read-ahead for upcoming 3 segments
+    // Trigger non-blocking server read-ahead for upcoming 2 segments
     const orderEntry = tgSegOrderByFileId.get(rawId);
     if (orderEntry) {
-      warmPlaylistAhead(token, orderEntry.fileIds, orderEntry.index + 1, 3);
+      warmPlaylistAhead(token, orderEntry.fileIds, orderEntry.index + 1, 2);
     }
 
     try {
@@ -624,18 +625,31 @@ async function startServer() {
         }
       }
 
-      const filePath = await resolveTelegramFilePath(token, rawId);
+      const upstreamHeaders: Record<string, string> = {};
+      if (req.headers.range) {
+        upstreamHeaders['Range'] = String(req.headers.range);
+      }
+
+      let filePath = await resolveTelegramFilePath(token, rawId);
       if (!filePath) {
         res.status(404).send('Telegram segment not found');
         return;
       }
 
-      const upstreamUrl = `https://api.telegram.org/file/bot${token}/${filePath}`;
-      const upstreamHeaders: Record<string, string> = {};
-      if (req.headers.range) {
-        upstreamHeaders['Range'] = String(req.headers.range);
+      let tgResp = await fetch(`https://api.telegram.org/file/bot${token}/${filePath}`, {
+        headers: upstreamHeaders,
+        signal: AbortSignal.timeout(55000),
+      });
+      if ((tgResp.status === 403 || tgResp.status === 404) && !req.headers.range) {
+        tgFilePathCache.delete(rawId);
+        filePath = await resolveTelegramFilePath(token, rawId);
+        if (filePath) {
+          tgResp = await fetch(`https://api.telegram.org/file/bot${token}/${filePath}`, {
+            headers: upstreamHeaders,
+            signal: AbortSignal.timeout(55000),
+          });
+        }
       }
-      const tgResp = await fetch(upstreamUrl, { headers: upstreamHeaders });
       if (!tgResp.ok || !tgResp.body) {
         tgFilePathCache.delete(rawId);
         res.status(tgResp.status || 502).send('Upstream Telegram fetch failed');
