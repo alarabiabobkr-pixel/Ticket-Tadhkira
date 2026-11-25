@@ -1,0 +1,56 @@
+{
+  "byseCode": "gtcscgcisfzj",
+  "channelId": "-1003808292795",
+  "quality": "720p-direct",
+  "title": "بلاك كلوفر 87",
+  "durationSeconds": 1434,
+  "rawSegmentCount": 142,
+  "targetDuration": 46,
+  "complete": false,
+  "nextRawIndex": 13,
+  "totalBytes": 41996568,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 11.302,
+      "bytes": 1958584,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIfW2sGc1etH_T6lISWB2SKMt-uxZKqAAITJAACYlw5UHfrJtt0QnjaPQQ",
+      "msgId": 8027
+    },
+    {
+      "index": 1,
+      "duration": 9.677,
+      "bytes": 2954232,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIfXGsGc1gjwyde9-GCTFa63mW6p6tUAAIUJAACYlw5UKyNwuWvpJnNPQQ",
+      "msgId": 8028
+    },
+    {
+      "index": 2,
+      "duration": 45.003,
+      "bytes": 8111072,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIfXWsGc1rheCPgnVFftZwT83zawdGYAAIVJAACYlw5UL3ClDvudLKlPQQ",
+      "msgId": 8029
+    },
+    {
+      "index": 3,
+      "duration": 25.525,
+      "bytes": 8980008,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIfXmsGc1vj53guCiSCX9NYj9kmMDqAAAIWJAACYlw5UObPcKm7UfOSPQQ",
+      "msgId": 8030
+    },
+    {
+      "index": 4,
+      "duration": 21.647,
+      "bytes": 13127664,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIfX2sGc4O6qDwTtHVrlFI3ygABWr3PAgACFyQAAmJcOVANl_qEYBaHhz0E",
+      "msgId": 8031
+    },
+    {
+      "index": 5,
+      "duration": 18.31,
+      "bytes": 6865008,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIfYGsGc4VthIGqlpHrPT_fuFprql3qAAIYJAACYlw5UO47r8sV_k_gPQQ",
+      "msgId": 8032
+    }
+  ]
+}
