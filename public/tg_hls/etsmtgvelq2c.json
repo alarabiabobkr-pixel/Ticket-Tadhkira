@@ -1,0 +1,84 @@
+{
+  "byseCode": "etsmtgvelq2c",
+  "channelId": "-1004431929473",
+  "quality": "720p-direct",
+  "title": "The Jungle Book 2016 720p BluRay AKWAM",
+  "durationSeconds": 6355,
+  "rawSegmentCount": 630,
+  "targetDuration": 48,
+  "complete": false,
+  "nextRawIndex": 33,
+  "totalBytes": 60169400,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 12.429,
+      "bytes": 2990328,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4NrBqvLkqxud1cfEsTvzVUPxUBa_gAC8SAAAtPROFAcl6p22Lrldj0E",
+      "msgId": 9091
+    },
+    {
+      "index": 1,
+      "duration": 10.427,
+      "bytes": 1841272,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4RrBqvMe17zNsUaQAABB-O-bVCtWTUAAvIgAALT0ThQC__HnawumtE9BA",
+      "msgId": 9092
+    },
+    {
+      "index": 2,
+      "duration": 36.161,
+      "bytes": 7045864,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4VrBqvNLA_K03rvj0VA9G8NwRW4gAAC8yAAAtPROFDuBy5DpWU06j0E",
+      "msgId": 9093
+    },
+    {
+      "index": 3,
+      "duration": 41.208,
+      "bytes": 7768536,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4ZrBqvPKWxJI5G-GOo4OXv-dclFjgAC9CAAAtPROFAz4UQaDefB5T0E",
+      "msgId": 9094
+    },
+    {
+      "index": 4,
+      "duration": 41.083,
+      "bytes": 6348384,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4drBqvSF3LVkvdrQGXF7iej7eBdLwAC9SAAAtPROFB6japFDioLUj0E",
+      "msgId": 9095
+    },
+    {
+      "index": 5,
+      "duration": 42.459,
+      "bytes": 6435616,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4hrBqvUw7ek7x2hWOZHwoZRUEuBDAAC9iAAAtPROFAOnkdFONekmz0E",
+      "msgId": 9096
+    },
+    {
+      "index": 6,
+      "duration": 47.046,
+      "bytes": 5705048,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4lrBqvVtGuOi3q20-rxWqEXxfQQSQAC9yAAAtPROFDUaWkTX580hD0E",
+      "msgId": 9097
+    },
+    {
+      "index": 7,
+      "duration": 44.795,
+      "bytes": 5524192,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4prBqvWkG0aq6FHcznCYidvmyYYrAAC-CAAAtPROFB9M467h8PugD0E",
+      "msgId": 9098
+    },
+    {
+      "index": 8,
+      "duration": 47.506,
+      "bytes": 9573336,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4trBqvabaSoQzifeg8ub1Dea48c8QAC-SAAAtPROFAJmIhQXCJzNT0E",
+      "msgId": 9099
+    },
+    {
+      "index": 9,
+      "duration": 13.263,
+      "bytes": 6936824,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACI4xrBqvbzklRjSBIxhKExHx1kCpqHQAC-iAAAtPROFBhZzwRyUS20z0E",
+      "msgId": 9100
+    }
+  ]
+}
