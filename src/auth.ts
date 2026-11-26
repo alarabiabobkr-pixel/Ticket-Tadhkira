@@ -1544,6 +1544,7 @@ async function analyzeAndVerifyReceipt() {
 function renderSubscriptionModalContent() {
   const modal = document.getElementById('subscriptionModal');
   if (!modal) return;
+  capturePaymentDraftInputs();
   const user = auth.currentUser;
   const profile = currentUserProfile;
   const access = getAccessState();
@@ -1838,7 +1839,7 @@ function renderSubscriptionModalContent() {
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <div>
               <label for="jaibSenderPhone" class="block text-[11px] font-bold text-slate-300 mb-1">رقمك الذي حوّلت منه *</label>
-              <input id="jaibSenderPhone" type="tel" required minlength="7" maxlength="20" value="${escapeHtml(draftSenderPhone)}" oninput="window.TadhkiraAuth && void 0" placeholder="مثال: 771234567" class="w-full bg-dark-900 border border-dark-border focus:border-brand rounded-xl px-3 py-2 text-xs text-white font-mono placeholder-slate-500 focus:outline-none" />
+              <input id="jaibSenderPhone" type="tel" required minlength="7" maxlength="20" value="${escapeHtml(draftSenderPhone)}" placeholder="مثال: 771234567" class="w-full bg-dark-900 border border-dark-border focus:border-brand rounded-xl px-3 py-2 text-xs text-white font-mono placeholder-slate-500 focus:outline-none" />
             </div>
             <div>
               <label for="jaibTransactionRef" class="block text-[11px] font-bold text-slate-300 mb-1">رقم العملية / الحوالة في ${escapeHtml(activeWallet.nameAr)} *</label>
@@ -2384,7 +2385,7 @@ function renderAdminUsersPageListOnly() {
                 </span>
                 ${
                   u.email
-                    ? `<button onclick="window.TadhkiraAuth.copyUserEmail('${escapeHtml(u.email)}')" class="px-1.5 py-0.5 rounded bg-dark-800 hover:bg-dark-700 text-slate-300 text-[10px] cursor-pointer" title="نسخ البريد الإلكتروني"><i class="fa-regular fa-copy"></i></button>`
+                    ? `<button data-email="${escapeHtml(u.email)}" onclick="window.TadhkiraAuth.copyUserEmail(this.dataset.email || '')" class="px-1.5 py-0.5 rounded bg-dark-800 hover:bg-dark-700 text-slate-300 text-[10px] cursor-pointer" title="نسخ البريد الإلكتروني"><i class="fa-regular fa-copy"></i></button>`
                     : ''
                 }
               </div>
@@ -2753,7 +2754,7 @@ function showDomainGuideModal() {
       <div class="bg-dark-950 p-3.5 rounded-2xl border border-dark-border mb-4 space-y-2 text-xs">
         <div class="flex items-center justify-between">
           <span class="text-slate-400">النطاق المطلوب إضافته:</span>
-          <button onclick="navigator.clipboard.writeText('${currentHost}'); if (typeof showToast === 'function') showToast('تم نسخ النطاق!');" class="text-brand hover:underline font-bold text-[11px] flex items-center gap-1">
+          <button data-host="${escapeHtml(currentHost)}" onclick="navigator.clipboard?.writeText?.(this.dataset.host || '').then(() => { if (typeof showToast === 'function') showToast('تم نسخ النطاق!'); }).catch(() => {})" class="text-brand hover:underline font-bold text-[11px] flex items-center gap-1">
             <i class="fa-regular fa-copy"></i> نسخ
           </button>
         </div>
@@ -3207,7 +3208,7 @@ function renderAuthUI(user: FirebaseUser | null, profile: UserTicketProfile | nu
             : ''
         }
         <button onclick="window.TadhkiraAuth.openTicketModal()" class="flex items-center gap-1 px-2 py-1 rounded-xl bg-amber-500/15 border border-amber-400/50 text-[10px] font-bold text-amber-300 shrink-0">
-          <img src="${effectiveProfile.photoURL || '/icon.svg'}" class="w-4 h-4 rounded-full border border-amber-400 object-cover" />
+          <img src="${effectiveProfile.photoURL || '/icon.svg'}" alt="${escapeHtml(effectiveProfile.displayName)}" class="w-4 h-4 rounded-full border border-amber-400 object-cover" onerror="this.src='/icon.svg'" />
           <span>${escapeHtml(effectiveProfile.formattedTicket)}</span>
         </button>
       </div>
@@ -3475,9 +3476,13 @@ async function shareTicket() {
     } catch (_) {}
   }
 
-  if (navigator.clipboard) {
-    await navigator.clipboard.writeText(text);
-    toast('<i class="fa-solid fa-copy mr-1.5 text-amber-400"></i> تم نسخ تفاصيل تذكرتك لمشاركتها!');
+  if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast('<i class="fa-solid fa-copy mr-1.5 text-amber-400"></i> تم نسخ تفاصيل تذكرتك لمشاركتها!');
+    } catch (_) {
+      toast('⚠️ تعذر النسخ التلقائي — يمكنك نسخ رقم تذكرتك يدوياً');
+    }
   }
 }
 

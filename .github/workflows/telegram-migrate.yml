@@ -21,17 +21,18 @@ on:
           - all
           - movies
       minutes:
-        description: 'مدة التشغيل بالدقائق (الأنسب للحساب المجاني 20-25 دقيقة)'
+        description: 'مدة التشغيل بالدقائق لكل قناة في الدورة الواحدة'
         required: true
-        default: '20'
+        default: '45'
         type: choice
         options:
-          - '15'
-          - '20'
-          - '30'
+          - '25'
+          - '35'
+          - '45'
+          - '50'
   schedule:
-    # تشغيل تلقائي آمن كل 4 ساعات لدفعة قصيرة (20 دقيقة) حتى لا يتعرض الحساب للحظر
-    - cron: '15 */4 * * *'
+    # تشغيل تلقائي كل ساعة بالتوازي على القنوات لإنهاء المكتبة بالكامل بسرعة وأمان
+    - cron: '5 * * * *'
 
 concurrency:
   group: telegram-catalog-migrator
@@ -41,9 +42,21 @@ permissions:
   contents: write
 
 jobs:
-  migrate-to-telegram:
+  migrate:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 56
+    strategy:
+      fail-fast: false
+      matrix:
+        group:
+          - name: movies-default
+            keys: movies_default
+          - name: series-arabic
+            keys: series_arabic
+          - name: series-turkish-yemeni
+            keys: series_turkish,series_yemeni
+          - name: anime-all
+            keys: anime_movies,series_anime
 
     steps:
       - name: Checkout repository
@@ -57,7 +70,6 @@ jobs:
         run: |
           if [ -z "$TELEGRAM_BOT_TOKEN" ]; then
             echo "❌ Error: TELEGRAM_BOT_TOKEN secret is missing!"
-            echo "Please add TELEGRAM_BOT_TOKEN in GitHub Repository -> Settings -> Secrets and variables -> Actions."
             exit 1
           fi
 
@@ -66,7 +78,7 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Ensure ffmpeg is available when needed
+      - name: Ensure ffmpeg is available
         run: |
           if ! command -v ffmpeg >/dev/null 2>&1; then
             sudo apt-get update -qq
@@ -74,36 +86,95 @@ jobs:
           fi
           ffmpeg -version | head -n 1
 
-      - name: Run Safe Cloud Migration Batch
+      - name: Run Channel Migration Batch (${{ matrix.group.name }})
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           MODE: ${{ github.event.inputs.mode || 'fast-then-full' }}
           ONLY_SCOPE: ${{ github.event.inputs.only || 'all' }}
-          MAX_MINUTES: ${{ github.event.inputs.minutes || '20' }}
+          MAX_MINUTES: ${{ github.event.inputs.minutes || '45' }}
+          CHANNEL_KEYS: ${{ matrix.group.keys }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
+          START_TS=$(date +%s)
           if [ "$MODE" = "smart-720p" ]; then
-            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --max-minutes="$MAX_MINUTES" --ffmpeg-workers=1
+            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --channel-key="$CHANNEL_KEYS" --skip-catalog-sync --max-minutes="$MAX_MINUTES" --ffmpeg-workers=2
           elif [ "$MODE" = "fast-only" ]; then
-            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --fast-only --max-minutes="$MAX_MINUTES"
+            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --channel-key="$CHANNEL_KEYS" --skip-catalog-sync --fast-only --max-minutes="$MAX_MINUTES"
           else
-            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --fast-only --max-minutes="$MAX_MINUTES"
-            if [ -z "$(git status --porcelain public/tg_hls)" ]; then
-              echo "Fast-only queue produced no new files. Running short Smart 720p batch (1 worker)..."
-              node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --max-minutes=18 --ffmpeg-workers=1
+            node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --channel-key="$CHANNEL_KEYS" --skip-catalog-sync --fast-only --max-minutes="$MAX_MINUTES"
+            NOW_TS=$(date +%s)
+            ELAPSED_MIN=$(( (NOW_TS - START_TS) / 60 ))
+            REMAINING_MIN=$(( MAX_MINUTES - ELAPSED_MIN ))
+            if [ "$REMAINING_MIN" -ge 3 ]; then
+              echo "Fast-only finished with ${REMAINING_MIN}m left. Continuing with Smart 720p batch..."
+              node scripts/batch_migrate_catalog.mjs --only="$ONLY_SCOPE" --channel-key="$CHANNEL_KEYS" --skip-catalog-sync --max-minutes="$REMAINING_MIN" --ffmpeg-workers=2
             fi
           fi
 
           rm -f public/tg_hls/*.tmp.*
-          git add public/tg_hls public/catalog.json public/curated_catalog.json public/catalog.js
 
-          if ! git diff --cached --quiet; then
-            git commit -m "chore(telegram): sync HLS manifests and catalog"
-            git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
-            git push origin "HEAD:$GITHUB_REF_NAME"
-            echo "✅ Pushed batch progress safely to GitHub."
-          else
-            echo "ℹ️ No new manifest changes in this batch."
+      - name: Commit and Push Channel Manifests
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/tg_hls/*.json
+          if git diff --cached --quiet; then
+            echo "ℹ️ No manifest changes for ${{ matrix.group.name }}."
+            exit 0
           fi
+          git commit -m "chore(telegram): sync ${{ matrix.group.name }} manifests"
+          for attempt in 1 2 3 4 5 6; do
+            git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
+            if git push origin "HEAD:$GITHUB_REF_NAME"; then
+              echo "✅ Pushed ${{ matrix.group.name }} manifests."
+              exit 0
+            fi
+            sleep $((2 + RANDOM % 5))
+          done
+          echo "❌ Failed to push after 6 attempts"
+          exit 1
+
+  sync-catalog:
+    needs: migrate
+    if: always()
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Ensure ffmpeg is available
+        run: |
+          if ! command -v ffmpeg >/dev/null 2>&1; then
+            sudo apt-get update -qq
+            sudo apt-get install -y -qq ffmpeg
+          fi
+
+      - name: Backfill Thumbnails & Sync Catalog JSON
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          node scripts/backfill_tg_thumbnails.mjs --max-minutes=5 --workers=2 || true
+          node scripts/batch_migrate_catalog.mjs --sync-only
+          rm -f public/tg_hls/*.tmp.*
+
+      - name: Push Updated Catalog & Thumbnails
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/tg_hls public/catalog.json public/curated_catalog.json public/catalog.js
+          if git diff --cached --quiet; then
+            echo "ℹ️ Catalog already up to date."
+            exit 0
+          fi
+          git commit -m "chore(telegram): sync catalog & thumbnails"
+          git pull --rebase --autostash origin "$GITHUB_REF_NAME" || true
+          git push origin "HEAD:$GITHUB_REF_NAME"
+          echo "✅ Catalog and thumbnails synced to GitHub."

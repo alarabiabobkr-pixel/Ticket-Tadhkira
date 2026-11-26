@@ -17,6 +17,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
+import { generateAndUploadThumbnailsForManifest } from './lib_tg_thumbs.mjs';
 
 const execFileAsync = promisify(execFile);
 
@@ -69,10 +70,7 @@ const PID_FILE = '/tmp/tg_batch_migrator.pid';
 const FAST_COPY_MAX_KBPS = 1550;
 const CHUNK_MAX_BYTES = 14 * 1024 * 1024;
 
-if (!BOT_TOKEN) {
-  console.error('Missing valid TELEGRAM_BOT_TOKEN in .env');
-  process.exit(1);
-}
+let SKIP_CATALOG_SYNC = false;
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -132,6 +130,11 @@ function parseArgs() {
     maxMinutes: 0,
     only: 'movies',
     forceCode: '',
+    forceCodes: [],
+    forceChannel: '',
+    channelKeys: [],
+    skipCatalogSync: false,
+    syncOnly: false,
     fastOnly: false,
     ffmpegWorkers: cpuDefault,
   };
@@ -140,6 +143,13 @@ function parseArgs() {
     else if (arg.startsWith('--max-minutes=')) args.maxMinutes = Number(arg.split('=')[1]) || 0;
     else if (arg.startsWith('--only=')) args.only = arg.split('=')[1].trim();
     else if (arg.startsWith('--code=')) args.forceCode = arg.split('=')[1].trim();
+    else if (arg.startsWith('--codes=')) {
+      args.forceCodes = arg.split('=')[1].split(',').map((s) => s.trim()).filter(Boolean);
+    } else if (arg.startsWith('--channel=')) args.forceChannel = arg.split('=')[1].trim();
+    else if (arg.startsWith('--channel-key=')) {
+      args.channelKeys = arg.split('=')[1].split(',').map((s) => s.trim()).filter(Boolean);
+    } else if (arg === '--skip-catalog-sync') args.skipCatalogSync = true;
+    else if (arg === '--sync-only') args.syncOnly = true;
     else if (arg === '--fast-only') args.fastOnly = true;
     else if (arg.startsWith('--ffmpeg-workers=')) {
       args.ffmpegWorkers = Math.max(1, Number(arg.split('=')[1]) || cpuDefault);
@@ -358,6 +368,7 @@ async function uploadChunkToTelegram(chatId, buffer, filename, caption = '') {
 }
 
 function patchCatalogWithTgCode(_byseCode, _outCode) {
+  if (SKIP_CATALOG_SYNC) return 0;
   return syncAllCompletedManifestsToCatalog();
 }
 
@@ -457,13 +468,31 @@ function pickTargetChannel(item, isSeries) {
   return CHANNEL_MAP.series_arabic;
 }
 
-function collectPendingByChannel(only = 'movies', writableChannels) {
+function getCompletedManifestCodeSet() {
+  const done = new Set();
+  if (!fs.existsSync(TG_DIR)) return done;
+  for (const fname of fs.readdirSync(TG_DIR)) {
+    if (!fname.endsWith('.json')) continue;
+    try {
+      const m = JSON.parse(fs.readFileSync(path.join(TG_DIR, fname), 'utf8'));
+      if (m && m.complete) {
+        const code = m.parentCode || m.byseCode || fname.replace(/\.json$/, '');
+        if (code) done.add(code);
+      }
+    } catch (_) {}
+  }
+  return done;
+}
+
+function collectPendingByChannel(only = 'movies', writableChannels, allowedChannels = null) {
   const catalog = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'public/catalog.json'), 'utf8'));
+  const completedManifests = getCompletedManifestCodeSet();
   const byChannel = new Map();
   const seenCodes = new Set();
 
   const pushJob = (channelId, job) => {
     if (writableChannels && !writableChannels.has(channelId)) return;
+    if (allowedChannels && allowedChannels.size > 0 && !allowedChannels.has(channelId)) return;
     if (!byChannel.has(channelId)) byChannel.set(channelId, []);
     byChannel.get(channelId).push(job);
   };
@@ -475,14 +504,14 @@ function collectPendingByChannel(only = 'movies', writableChannels) {
 
     if (!isSeries) {
       const code = extractByseCode(item);
-      if (code && !seenCodes.has(code) && !item.tgCode && !item.tgCode480) {
+      if (code && !seenCodes.has(code) && !item.tgCode && !item.tgCode480 && !completedManifests.has(code)) {
         seenCodes.add(code);
         pushJob(channelId, { code, title: item.title, channelId });
       }
     } else if (only === 'all' && Array.isArray(item.episodes)) {
       for (const ep of item.episodes) {
         const code = extractByseCode(ep);
-        if (code && !seenCodes.has(code) && !ep.tgCode && !ep.tgCode480) {
+        if (code && !seenCodes.has(code) && !ep.tgCode && !ep.tgCode480 && !completedManifests.has(code)) {
           seenCodes.add(code);
           pushJob(channelId, { code, title: `${item.title} - ${ep.title || ep.episodeNum}`, channelId });
         }
@@ -625,6 +654,20 @@ async function migrateFastCopy(code, chatId, playlist, deadlineMs) {
   }
 
   if (manifest.complete) {
+    try {
+      const th = await generateAndUploadThumbnailsForManifest({
+        code,
+        manifest,
+        manifestPath,
+        botToken: BOT_TOKEN,
+        targetChatId,
+      });
+      if (!th.skipped) {
+        console.log(`  [${code}] Generated ${th.count} seek thumbnails (${th.sheets} sheet(s), ${(th.totalBytes / 1024).toFixed(0)} KB)`);
+      }
+    } catch (err) {
+      console.warn(`  [${code}] Thumbnail generation warning: ${err.message}`);
+    }
     patchCatalogWithTgCode(code, code);
   }
   return manifest.complete;
@@ -824,25 +867,78 @@ async function migrateSmart720p(code, chatId, playlist, deadlineMs, ffmpegSem) {
 
   await prevUploadPromise;
   fs.rmSync(videoTmpDir, { recursive: true, force: true });
-  if (manifest.complete) patchCatalogWithTgCode(code, code);
+  if (manifest.complete) {
+    try {
+      const th = await generateAndUploadThumbnailsForManifest({
+        code,
+        manifest,
+        manifestPath,
+        botToken: BOT_TOKEN,
+        targetChatId,
+        ffmpegSem,
+      });
+      if (!th.skipped) {
+        console.log(`  [${code}] Generated ${th.count} seek thumbnails (${th.sheets} sheet(s), ${(th.totalBytes / 1024).toFixed(0)} KB)`);
+      }
+    } catch (err) {
+      console.warn(`  [${code}] Thumbnail generation warning: ${err.message}`);
+    }
+    patchCatalogWithTgCode(code, code);
+  }
   return manifest.complete;
 }
 
 async function main() {
   acquireSingleInstanceLock();
-  const { limit, maxMinutes, only, forceCode, fastOnly, ffmpegWorkers } = parseArgs();
+  const {
+    limit,
+    maxMinutes,
+    only,
+    forceCode,
+    forceCodes,
+    forceChannel,
+    channelKeys,
+    skipCatalogSync,
+    syncOnly,
+    fastOnly,
+    ffmpegWorkers,
+  } = parseArgs();
+  SKIP_CATALOG_SYNC = skipCatalogSync;
   fs.mkdirSync(TG_DIR, { recursive: true });
-  const preSynced = syncAllCompletedManifestsToCatalog();
-  if (preSynced > 0) console.log(`Synced ${preSynced} completed manifest links into catalog files.`);
+
+  if (syncOnly) {
+    const synced = syncAllCompletedManifestsToCatalog();
+    console.log(`Catalog sync complete. Newly linked items: ${synced}`);
+    return;
+  }
+
+  if (!BOT_TOKEN) {
+    console.error('Missing valid TELEGRAM_BOT_TOKEN in .env');
+    process.exit(1);
+  }
+
+  if (!SKIP_CATALOG_SYNC) {
+    const preSynced = syncAllCompletedManifestsToCatalog();
+    if (preSynced > 0) console.log(`Synced ${preSynced} completed manifest links into catalog files.`);
+  }
   const deadlineMs = maxMinutes > 0 ? Date.now() + maxMinutes * 60 * 1000 : 0;
   const ffmpegSem = createSemaphore(ffmpegWorkers);
 
   console.log('Checking Telegram channels & bot admin permissions...');
   const writableChannels = await checkWritableChannels();
 
-  const queuesByChannel = forceCode
-    ? new Map([[CHANNEL_MAP.movies_default, [{ code: forceCode, title: forceCode, channelId: CHANNEL_MAP.movies_default }]]])
-    : collectPendingByChannel(only, writableChannels);
+  const allowedChannels = new Set(
+    channelKeys.map((k) => CHANNEL_MAP[k] || k).filter(Boolean)
+  );
+
+  const targetedCodes = [...new Set([...(forceCode ? [forceCode] : []), ...forceCodes])];
+  let queuesByChannel;
+  if (targetedCodes.length > 0) {
+    const chId = forceChannel || CHANNEL_MAP.movies_default;
+    queuesByChannel = new Map([[chId, targetedCodes.map((c) => ({ code: c, title: c, channelId: chId }))]]);
+  } else {
+    queuesByChannel = collectPendingByChannel(only, writableChannels, allowedChannels);
+  }
 
   let totalPending = 0;
   for (const [cid, list] of queuesByChannel.entries()) {
