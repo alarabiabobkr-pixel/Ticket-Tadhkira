@@ -1,0 +1,70 @@
+{
+  "byseCode": "m45lsjsknfi7",
+  "channelId": "-1004389672836",
+  "quality": "720p-direct",
+  "title": "Thudakkam 2026",
+  "durationSeconds": 8244,
+  "rawSegmentCount": 825,
+  "targetDuration": 52,
+  "complete": false,
+  "nextRawIndex": 31,
+  "totalBytes": 24195976,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 165816,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP3drCJnhnxcwWCh_orC0bBDH2O4k7AAC8jgAAp2EQFCaCDZwUJEi_T0E",
+      "msgId": 16247
+    },
+    {
+      "index": 1,
+      "duration": 10,
+      "bytes": 204920,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP3hrCJnjyOhhPxgvxvnl8XJuMy60YwAC8zgAAp2EQFACWZj6AyZfbz0E",
+      "msgId": 16248
+    },
+    {
+      "index": 2,
+      "duration": 42.084,
+      "bytes": 1210720,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP3lrCJnlMH5IT_lvPLuimoWXjKe7yQAC9DgAAp2EQFDWcthWMfXZPz0E",
+      "msgId": 16249
+    },
+    {
+      "index": 3,
+      "duration": 48,
+      "bytes": 1084760,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP3prCJnmSiKeNq59ZNgwxuNsLDz85wAC9TgAAp2EQFC-YGw5Ew5UFz0E",
+      "msgId": 16250
+    },
+    {
+      "index": 4,
+      "duration": 50.417,
+      "bytes": 4577048,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP3trCJnoskHBcPN4YTHKdm_QyNQguAAC9jgAAp2EQFDvuV6gumiItT0E",
+      "msgId": 16251
+    },
+    {
+      "index": 5,
+      "duration": 51.583,
+      "bytes": 7239128,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP3xrCJnrHbgAAovqlaK70vxd89yB3gAC9zgAAp2EQFBnSrMlup96Uj0E",
+      "msgId": 16252
+    },
+    {
+      "index": 6,
+      "duration": 51.291,
+      "bytes": 5323032,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP31rCJnszzV4HBKVGj2-FYuWrDUgUgAC-DgAAp2EQFBBdldvspZV6j0E",
+      "msgId": 16253
+    },
+    {
+      "index": 7,
+      "duration": 51.5,
+      "bytes": 4390552,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACP35rCJnu5vCosdhffoUkdq4gf3VOsgAC-TgAAp2EQFAITyJ3NZcsGj0E",
+      "msgId": 16254
+    }
+  ]
+}
