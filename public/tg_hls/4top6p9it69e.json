@@ -1,0 +1,42 @@
+{
+  "byseCode": "4top6p9it69e",
+  "channelId": "-1004401107496",
+  "quality": "720p-direct",
+  "title": "Zanb Insani S01E23",
+  "durationSeconds": 2917,
+  "rawSegmentCount": 291,
+  "targetDuration": 53,
+  "complete": false,
+  "nextRawIndex": 12,
+  "totalBytes": 17104992,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 1041144,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACJhNrB_2Z3ILzWp_DjUQnL3OlAgeAhAACIiIAAjsWQFBCYUrWwsmCyj0E",
+      "msgId": 9747
+    },
+    {
+      "index": 1,
+      "duration": 10.6,
+      "bytes": 1808184,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACJhRrB_2akxuYIoFFl2J8ZX-EZOqukAACIyIAAjsWQFAjgtHGE7eUHT0E",
+      "msgId": 9748
+    },
+    {
+      "index": 2,
+      "duration": 49.52,
+      "bytes": 6778904,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACJhVrB_2b2tqMNgO1gTt8zE_WSJ8GZAACJCIAAjsWQFAjLNoPNkGqcT0E",
+      "msgId": 9749
+    },
+    {
+      "index": 3,
+      "duration": 52.16,
+      "bytes": 7476760,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACJhZrB_3Fyz3puZVBYx1XkU0rAbz6wQACJSIAAjsWQFBTCGG-YFuIAz0E",
+      "msgId": 9750
+    }
+  ]
+}

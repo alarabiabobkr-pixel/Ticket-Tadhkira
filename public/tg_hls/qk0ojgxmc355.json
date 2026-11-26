@@ -1,0 +1,28 @@
+{
+  "byseCode": "qk0ojgxmc355",
+  "channelId": "-1004431929473",
+  "quality": "720p-direct",
+  "title": "Moana 2026 1080p WEBRip AR",
+  "durationSeconds": 7020,
+  "rawSegmentCount": 702,
+  "targetDuration": 45,
+  "complete": false,
+  "nextRawIndex": 2,
+  "totalBytes": 3035824,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 12,
+      "bytes": 1131384,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACKjlrB_2YD1EIZ-sUpcOUZ4ELhoVv9wACiyYAAqz4QVB_Xvok4PIYoT0E",
+      "msgId": 10809
+    },
+    {
+      "index": 1,
+      "duration": 8,
+      "bytes": 1904440,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACKjprB_3Hnsq1bGf_m3KZEKmqNHqxDAACjCYAAqz4QVDPFaaejJ0UrD0E",
+      "msgId": 10810
+    }
+  ]
+}
