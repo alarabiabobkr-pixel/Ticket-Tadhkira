@@ -1,0 +1,42 @@
+{
+  "byseCode": "67d16htrx326",
+  "channelId": "-1004401107496",
+  "quality": "720p-direct",
+  "title": "Zanb Insani S01E13",
+  "durationSeconds": 2786,
+  "rawSegmentCount": 278,
+  "targetDuration": 51,
+  "complete": false,
+  "nextRawIndex": 12,
+  "totalBytes": 16906464,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10,
+      "bytes": 1050168,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACI-hrB43VM7U5ctSlpG432FoUPVwjEQACth8AAjsWQFCVNT6VX_yCKj0E",
+      "msgId": 9192
+    },
+    {
+      "index": 1,
+      "duration": 10.6,
+      "bytes": 1811192,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACI-lrB43Xlip-cq3YNICHo3dB0XKPlwACtx8AAjsWQFD-frmrUvLe_z0E",
+      "msgId": 9193
+    },
+    {
+      "index": 2,
+      "duration": 49.8,
+      "bytes": 7010520,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACI-prB43ZfrZopiCLIdSw7zMd2WWKHwACuB8AAjsWQFCqwfF2EkLQzz0E",
+      "msgId": 9194
+    },
+    {
+      "index": 3,
+      "duration": 50.32,
+      "bytes": 7034584,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACI-trB44BcA8peoGiQSkn97RToeJYFQACuR8AAjsWQFCVyy0OORLHgT0E",
+      "msgId": 9195
+    }
+  ]
+}

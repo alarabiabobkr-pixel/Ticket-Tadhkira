@@ -1,0 +1,84 @@
+{
+  "byseCode": "uprv55owtbcr",
+  "channelId": "-1003808292795",
+  "quality": "720p-direct",
+  "title": "بلاك كلوفر 134",
+  "durationSeconds": 1434,
+  "rawSegmentCount": 141,
+  "targetDuration": 51,
+  "complete": false,
+  "nextRawIndex": 24,
+  "totalBytes": 64900608,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 12.971,
+      "bytes": 1766072,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkJGsHjcxMZU5sehg8IcsAAeZseJbVYwACVCYAAuwWOVDWSBjc-C49Dz0E",
+      "msgId": 9252
+    },
+    {
+      "index": 1,
+      "duration": 12.93,
+      "bytes": 4581560,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkJWsHjc3rIJTsaaq7T2SmOSqYPS-UAAJVJgAC7BY5ULrU07nZSLbhPQQ",
+      "msgId": 9253
+    },
+    {
+      "index": 2,
+      "duration": 26.736,
+      "bytes": 6423208,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkJmsHjc-PT12iWh2cypLOnJRPGNfwAAJWJgAC7BY5UMVAwsb_Q-SxPQQ",
+      "msgId": 9254
+    },
+    {
+      "index": 3,
+      "duration": 19.394,
+      "bytes": 7689200,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkJ2sHjdFZ3L0qW-K4EO1ObWrRuwfSAAJXJgAC7BY5UGLWCBLVSz9UPQQ",
+      "msgId": 9255
+    },
+    {
+      "index": 4,
+      "duration": 28.487,
+      "bytes": 7232360,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkKGsHjdNpghVvsQmriaqOvQ1G0mC8AAJYJgAC7BY5ULm5p0HXCxeWPQQ",
+      "msgId": 9256
+    },
+    {
+      "index": 5,
+      "duration": 21.439,
+      "bytes": 6567216,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkKWsHjdQvSJ1y3FfsKK-G_WGYBwGrAAJZJgAC7BY5UDsofHpzJNErPQQ",
+      "msgId": 9257
+    },
+    {
+      "index": 6,
+      "duration": 15.432,
+      "bytes": 6548792,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkKmsHjdX8DlVfqzcDAXlwiMYIBVxzAAJaJgAC7BY5UKDEm6yFkOokPQQ",
+      "msgId": 9258
+    },
+    {
+      "index": 7,
+      "duration": 26.651,
+      "bytes": 7752744,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkK2sHjdhS4N48drdLqMbCxjJQ-4EHAAJbJgAC7BY5UIxAC7Zh8qPkPQQ",
+      "msgId": 9259
+    },
+    {
+      "index": 8,
+      "duration": 26.484,
+      "bytes": 8561896,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkLGsHjdmHqcC4u24aHUtOQkZnVly6AAJcJgAC7BY5UG7e8ovfOg59PQQ",
+      "msgId": 9260
+    },
+    {
+      "index": 9,
+      "duration": 50.968,
+      "bytes": 7777560,
+      "fileId": "BQACAgQAAyEGAATi_e-7AAIkLWsHjgKcJOyes-3HyP64R-XOmONDAAJdJgAC7BY5ULt8VAdGD2KmPQQ",
+      "msgId": 9261
+    }
+  ]
+}
