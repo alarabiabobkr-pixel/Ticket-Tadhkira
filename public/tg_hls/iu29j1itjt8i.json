@@ -6,9 +6,9 @@
   "durationSeconds": 2548,
   "rawSegmentCount": 255,
   "targetDuration": 51,
-  "complete": false,
-  "nextRawIndex": 253,
-  "totalBytes": 500373656,
+  "complete": true,
+  "nextRawIndex": 255,
+  "totalBytes": 503000392,
   "segments": [
     {
       "index": 0,
@@ -499,6 +499,13 @@
       "bytes": 7073312,
       "fileId": "BQACAgQAAyEGAAMBCCnggQACJ-NrB44B6WSomzpplpxjBIi4VekAATEAAvwjAAKs-EFQMI-QWhfaXmQ9BA",
       "msgId": 10211
+    },
+    {
+      "index": 70,
+      "duration": 16.733,
+      "bytes": 2626736,
+      "fileId": "BQACAgQAAyEGAAMBCCnggQACJ-RrB8Cd6m0bNEiT6vMEc4p0IYDk7QACAyQAAqz4QVC2pxwKe999qT0E",
+      "msgId": 10212
     }
   ]
 }
