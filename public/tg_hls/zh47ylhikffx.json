@@ -6,9 +6,9 @@
   "durationSeconds": 2060,
   "rawSegmentCount": 206,
   "targetDuration": 58,
-  "complete": false,
-  "nextRawIndex": 173,
-  "totalBytes": 253320600,
+  "complete": true,
+  "nextRawIndex": 206,
+  "totalBytes": 303735056,
   "segments": [
     {
       "index": 0,
@@ -282,6 +282,62 @@
       "bytes": 6697688,
       "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUNrCIppNtRh5jWzFbMhnSi-pX9nFQAC3SEAAjsWSFAnn8WTMLi2zD0E",
       "msgId": 13635
+    },
+    {
+      "index": 39,
+      "duration": 28.8,
+      "bytes": 7292520,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNURrCI-oQ2-eOMaGM8Ke_TPoc0OnJQAC8CEAAjsWSFC6suiElvl7TT0E",
+      "msgId": 13636
+    },
+    {
+      "index": 40,
+      "duration": 44.12,
+      "bytes": 6465696,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUVrCI-p2TUPFZl2wdknUnUHDTqBJgAC8SEAAjsWSFBIUKFV0zDrFz0E",
+      "msgId": 13637
+    },
+    {
+      "index": 41,
+      "duration": 31.72,
+      "bytes": 8519784,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUZrCI-stA4L9PbNMIuKuLidoY06DgAC8iEAAjsWSFDQgX5_3JxaBD0E",
+      "msgId": 13638
+    },
+    {
+      "index": 42,
+      "duration": 44.84,
+      "bytes": 6435992,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUdrCI-tbmHN0x00-RChlzMfwy9lKQAC8yEAAjsWSFAAAW3KEzGnLa49BA",
+      "msgId": 13639
+    },
+    {
+      "index": 43,
+      "duration": 44.44,
+      "bytes": 7286880,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUhrCI-wLtXnsxbxahfxYZ1uBrT26wAC9CEAAjsWSFAhLpWP8F0WLj0E",
+      "msgId": 13640
+    },
+    {
+      "index": 44,
+      "duration": 47.56,
+      "bytes": 6150232,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUlrCI-xozCYGFbZHDcovwfYvurL4wAC9SEAAjsWSFAeGnYCmsiYUz0E",
+      "msgId": 13641
+    },
+    {
+      "index": 45,
+      "duration": 50,
+      "bytes": 5359128,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUprCI-0wvtc8PlbVQ7pRt5UROMY2gAC9iEAAjsWSFCAu_GOpC1A2D0E",
+      "msgId": 13642
+    },
+    {
+      "index": 46,
+      "duration": 36.68,
+      "bytes": 2904224,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACNUtrCI-0yt50_A6H1HL4gfz41YSlZgAC9yEAAjsWSFAfw2c-vWf5JT0E",
+      "msgId": 13643
     }
   ]
 }
