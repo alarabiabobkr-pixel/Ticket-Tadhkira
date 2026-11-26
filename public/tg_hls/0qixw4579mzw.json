@@ -269,5 +269,39 @@
       "fileId": "BQACAgQAAyEGAATi_e-7AAIZHmsFVodZq29z3xol5W4GyNb5cei1AAIwHAACYlwxUM8OMJSYZ0fQPQQ",
       "msgId": 6430
     }
-  ]
+  ],
+  "thumbnails": {
+    "version": 1,
+    "interval": 5,
+    "stepSeconds": 5.0044,
+    "durationSeconds": 1441.28,
+    "width": 192,
+    "height": 108,
+    "cols": 10,
+    "rows": 10,
+    "count": 288,
+    "sheets": [
+      {
+        "index": 0,
+        "frames": 100,
+        "bytes": 308694,
+        "fileId": "BQACAgQAAyEGAATi_e-7AAIoomsIJJMPx3da0skBddCva1UuYk8QAALQJQAC7BZBUDTZJKiXcJb7PQQ",
+        "msgId": 10402
+      },
+      {
+        "index": 1,
+        "frames": 100,
+        "bytes": 380652,
+        "fileId": "BQACAgQAAyEGAATi_e-7AAIoo2sIJJVQpyg2hd9Hjh_MXYh59-MoAALRJQAC7BZBUFY38Q8YiQPcPQQ",
+        "msgId": 10403
+      },
+      {
+        "index": 2,
+        "frames": 88,
+        "bytes": 348110,
+        "fileId": "BQACAgQAAyEGAATi_e-7AAIopGsIJJYsARconagL8EUmrjmsdnHkAALSJQAC7BZBULnH9KMG1JO9PQQ",
+        "msgId": 10404
+      }
+    ]
+  }
 }
