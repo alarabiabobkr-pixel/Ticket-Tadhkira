@@ -6,9 +6,9 @@
   "durationSeconds": 2588,
   "rawSegmentCount": 257,
   "targetDuration": 59,
-  "complete": false,
-  "nextRawIndex": 179,
-  "totalBytes": 268516264,
+  "complete": true,
+  "nextRawIndex": 257,
+  "totalBytes": 379868664,
   "segments": [
     {
       "index": 0,
@@ -296,6 +296,125 @@
       "bytes": 8210712,
       "fileId": "BQACAgQAAyEGAAMBBlOSKAACbEVrCeqdFiF5mE5Rb4aC2nst--8rPAAC0zQAAoJ7UFChg-VtZgNvST0E",
       "msgId": 27717
+    },
+    {
+      "index": 41,
+      "duration": 40.374,
+      "bytes": 7226720,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbEZrCe1FPSAY8UnZV-9pcvK6JGZCoAAC3DQAAoJ7UFAJibdc0zQFLT0E",
+      "msgId": 27718
+    },
+    {
+      "index": 42,
+      "duration": 50.258,
+      "bytes": 7909912,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbEdrCe1KLr42bjyLIX9dGUxQ2MizBQAC3TQAAoJ7UFDs7heiHahK7j0E",
+      "msgId": 27719
+    },
+    {
+      "index": 43,
+      "duration": 39.497,
+      "bytes": 6901856,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbEhrCe1LpFnD3lNUY7pzwiFiWa8JHAAC3jQAAoJ7UFD1bAAByEK_e4U9BA",
+      "msgId": 27720
+    },
+    {
+      "index": 44,
+      "duration": 56.473,
+      "bytes": 6514200,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbElrCe1QPXrlMMJapKt9rB_sQ2Np_gAC3zQAAoJ7UFBAWWo2kAVHoD0E",
+      "msgId": 27721
+    },
+    {
+      "index": 45,
+      "duration": 42.96,
+      "bytes": 6363800,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbEprCe1U8DAN3KdXVsEwURYto8rNngAC4DQAAoJ7UFCRqqQ8wdHFkD0E",
+      "msgId": 27722
+    },
+    {
+      "index": 46,
+      "duration": 42.626,
+      "bytes": 6032544,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbEtrCe1Wggtvwdq3lmq0PKioeZ0ZygAC4TQAAoJ7UFCdR_iasauDVT0E",
+      "msgId": 27723
+    },
+    {
+      "index": 47,
+      "duration": 51.301,
+      "bytes": 7242136,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbExrCe1arQw-xRsEGAZRhvx2ZMQGvAAC4zQAAoJ7UFCReTR6iIaQfj0E",
+      "msgId": 27724
+    },
+    {
+      "index": 48,
+      "duration": 48.049,
+      "bytes": 4703384,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbE1rCe1e0vLpmzdgWFkSlttuNsyxYAAC5DQAAoJ7UFDmdRRGwecQ-T0E",
+      "msgId": 27725
+    },
+    {
+      "index": 49,
+      "duration": 54.805,
+      "bytes": 7374488,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbE5rCe1lp0WfLwyr9-fqwdY2knq9dAAC5TQAAoJ7UFBcsOl10D2fsz0E",
+      "msgId": 27726
+    },
+    {
+      "index": 50,
+      "duration": 33.95,
+      "bytes": 6486752,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbE9rCe1my19n315GxhWNveG6KqD-oAAC5jQAAoJ7UFA1CWg4s55qtT0E",
+      "msgId": 27727
+    },
+    {
+      "index": 51,
+      "duration": 52.094,
+      "bytes": 7759512,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbFBrCe1zSI97KefnQFopO84aL1tY7AAC5zQAAoJ7UFDOn2RzKEmyOj0E",
+      "msgId": 27728
+    },
+    {
+      "index": 52,
+      "duration": 42.167,
+      "bytes": 5939296,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbFFrCe12lCUlt6dZqyaFKA4evaqkngAC6DQAAoJ7UFDu3rdBuKiaJz0E",
+      "msgId": 27729
+    },
+    {
+      "index": 53,
+      "duration": 47.047,
+      "bytes": 5939672,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbFJrCe2BAnxNt0Bk8eN4Gku7P6eHMQAC6TQAAoJ7UFB4B0ru6C1nzT0E",
+      "msgId": 27730
+    },
+    {
+      "index": 54,
+      "duration": 47.965,
+      "bytes": 7648216,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbFNrCe2Y7hvek1oAAWj0tT0LAcX5HiEAAuo0AAKCe1BQauL4PWeoML09BA",
+      "msgId": 27731
+    },
+    {
+      "index": 55,
+      "duration": 42.96,
+      "bytes": 6598048,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbFRrCe2hzCTWcAItDGfa8Zo-LeXBfAAC6zQAAoJ7UFArQJA33utSoD0E",
+      "msgId": 27732
+    },
+    {
+      "index": 56,
+      "duration": 42.042,
+      "bytes": 7768160,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbFVrCe2ipiY3nj_xtuJTwlpvoqISKQAC7DQAAoJ7UFCl9XOqqnzpLT0E",
+      "msgId": 27733
+    },
+    {
+      "index": 57,
+      "duration": 42.71,
+      "bytes": 2943704,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbFZrCe2m5cumY2Ia793b-Vfz7rp-0AAC7TQAAoJ7UFCb5PA1asqVhT0E",
+      "msgId": 27734
     }
   ]
 }
