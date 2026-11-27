@@ -5,10 +5,10 @@
   "title": "Blindspot S02E08 720p BluRay AKWAM",
   "durationSeconds": 2590,
   "rawSegmentCount": 259,
-  "targetDuration": 56,
-  "complete": false,
-  "nextRawIndex": 186,
-  "totalBytes": 275031216,
+  "targetDuration": 57,
+  "complete": true,
+  "nextRawIndex": 259,
+  "totalBytes": 376647848,
   "segments": [
     {
       "index": 0,
@@ -310,6 +310,125 @@
       "bytes": 6862752,
       "fileId": "BQACAgQAAyEGAAMBBlOSKAACafxrCduqqWDF9Udd92p0jZq6DpB7SAACLjIAAoJ7UFBvCFZmUBj-yT0E",
       "msgId": 27132
+    },
+    {
+      "index": 43,
+      "duration": 26.943,
+      "bytes": 6886440,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACaf1rCeBbK_lNxhLgndP-kZsJYFi1FgACVzIAAoJ7UFDPuZYc6dl-qj0E",
+      "msgId": 27133
+    },
+    {
+      "index": 44,
+      "duration": 51.844,
+      "bytes": 6857112,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACaf5rCeBhHGirmvcyS9qgec3k8yv03wACWDIAAoJ7UFAcsoZjwcz_iD0E",
+      "msgId": 27134
+    },
+    {
+      "index": 45,
+      "duration": 28.987,
+      "bytes": 7488040,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACaf9rCeBkppsuDadE3T9Ey-SWqMd5RAACWTIAAoJ7UFBAMpYGwkENkD0E",
+      "msgId": 27135
+    },
+    {
+      "index": 46,
+      "duration": 40.582,
+      "bytes": 7398176,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagABawngZwMaqDtjjsb9-zyL5u3ch8kAAloyAAKCe1BQt80HnIOp_UA9BA",
+      "msgId": 27136
+    },
+    {
+      "index": 47,
+      "duration": 38.915,
+      "bytes": 6561952,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagFrCeBoCFOrMxbErQABu_zzGbz5aRoAAlwyAAKCe1BQGyjvsC_WvF09BA",
+      "msgId": 27137
+    },
+    {
+      "index": 48,
+      "duration": 52.596,
+      "bytes": 5551640,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagJrCeBpYuABA0zCiyFZZYBT9lHFygACXTIAAoJ7UFAhinNL-WHqIj0E",
+      "msgId": 27138
+    },
+    {
+      "index": 49,
+      "duration": 45.795,
+      "bytes": 4414240,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagNrCeBr_XM-YeG-ylBkV_Sy8hw7bwACXjIAAoJ7UFAEPu5o5hFKSD0E",
+      "msgId": 27139
+    },
+    {
+      "index": 50,
+      "duration": 42.709,
+      "bytes": 3373848,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagRrCeBwCelIm82gZU8nZYkbz9f3EwACXzIAAoJ7UFAblUCF5vAHjT0E",
+      "msgId": 27140
+    },
+    {
+      "index": 51,
+      "duration": 56.848,
+      "bytes": 6649560,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagVrCeBx0KjQqWHGE5WNg1feA5iuCQACYDIAAoJ7UFCmyS4zaPTvIT0E",
+      "msgId": 27141
+    },
+    {
+      "index": 52,
+      "duration": 42.752,
+      "bytes": 7028568,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagZrCeB2SjwcaKwVF79wIuaJFNrnuAACYTIAAoJ7UFDyFrxfloYP6j0E",
+      "msgId": 27142
+    },
+    {
+      "index": 53,
+      "duration": 49.008,
+      "bytes": 6333720,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagdrCeB7CoB9Yiwrp3Fee9iEah_2OQACYjIAAoJ7UFDE1JW6IUSclD0E",
+      "msgId": 27143
+    },
+    {
+      "index": 54,
+      "duration": 51.885,
+      "bytes": 7591064,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACaghrCeB8e_kueVzBlYYZWE3mjG5FFwACYzIAAoJ7UFCC00mX2k-HXz0E",
+      "msgId": 27144
+    },
+    {
+      "index": 55,
+      "duration": 51.801,
+      "bytes": 7894872,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACaglrCeB-P0_ylkjoAk39mE_qkwIAAVwAAmQyAAKCe1BQG0Yj2srj8Tc9BA",
+      "msgId": 27145
+    },
+    {
+      "index": 56,
+      "duration": 48.132,
+      "bytes": 6652568,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagprCeCB9Hx-peisn7k6fWti16UpnQACZTIAAoJ7UFAyV9rzJNX_1D0E",
+      "msgId": 27146
+    },
+    {
+      "index": 57,
+      "duration": 45.879,
+      "bytes": 7434272,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagtrCeCDvTO-T7-RGV5TrRsHAAF0SQoAAmYyAAKCe1BQsQKMO7wLDdA9BA",
+      "msgId": 27147
+    },
+    {
+      "index": 58,
+      "duration": 42.709,
+      "bytes": 1933016,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACagxrCeCF25MKO7r7I3qvl4_p_1ibZQACZzIAAoJ7UFCPTCE6xG4phD0E",
+      "msgId": 27148
+    },
+    {
+      "index": 59,
+      "duration": 9.051,
+      "bytes": 1567544,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACag1rCeCGija2NDQSDIJpjLW24EX66gACaDIAAoJ7UFCL2IS3X3fniz0E",
+      "msgId": 27149
     }
   ]
 }
