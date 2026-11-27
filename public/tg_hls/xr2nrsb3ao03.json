@@ -6,9 +6,9 @@
   "durationSeconds": 2030,
   "rawSegmentCount": 203,
   "targetDuration": 55,
-  "complete": false,
-  "nextRawIndex": 167,
-  "totalBytes": 243936392,
+  "complete": true,
+  "nextRawIndex": 203,
+  "totalBytes": 296277096,
   "segments": [
     {
       "index": 0,
@@ -275,6 +275,62 @@
       "bytes": 6630760,
       "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1NrCWtwdIaLtIQzYhmolGvHOjxPCgACSiIAAoJ7UFC1vcKFMFggsD0E",
       "msgId": 23379
+    },
+    {
+      "index": 38,
+      "duration": 47.36,
+      "bytes": 7368472,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1RrCW9jW-YcM9glgcJ6KA0OodHmBAACUCIAAoJ7UFBFmrTW90WkbD0E",
+      "msgId": 23380
+    },
+    {
+      "index": 39,
+      "duration": 45.28,
+      "bytes": 5488472,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1VrCW9lITXrTPIAAdQHvMEk7mv0FqcAAlEiAAKCe1BQVK1iFU2dT1E9BA",
+      "msgId": 23381
+    },
+    {
+      "index": 40,
+      "duration": 39.64,
+      "bytes": 6534880,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1ZrCW9mZ5ieck120Mq4jGjUKgmIDAACUiIAAoJ7UFCPRtzPCkw2uj0E",
+      "msgId": 23382
+    },
+    {
+      "index": 41,
+      "duration": 42.72,
+      "bytes": 7557600,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1drCW9nz8ZOjdJM9wH_isehzH_3WgACUyIAAoJ7UFAQEnC3DFw5Bz0E",
+      "msgId": 23383
+    },
+    {
+      "index": 42,
+      "duration": 41,
+      "bytes": 6787552,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1hrCW9oOokNoISoyHgtsygnGwKXtwACVCIAAoJ7UFCQYG3gsl1nRD0E",
+      "msgId": 23384
+    },
+    {
+      "index": 43,
+      "duration": 39.2,
+      "bytes": 6399520,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1lrCW9qGfgs-Fz8kstNDcfZal_hjQACVSIAAoJ7UFBybi1e7YVfOz0E",
+      "msgId": 23385
+    },
+    {
+      "index": 44,
+      "duration": 49.32,
+      "bytes": 6532248,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1prCW9sL9HuaT8ECs-q28QuEGRjywACViIAAoJ7UFBToPi2bP1gKT0E",
+      "msgId": 23386
+    },
+    {
+      "index": 45,
+      "duration": 46.28,
+      "bytes": 5671960,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACW1trCW9t1p3nEHXTZLvw2Y1voqLD8wACVyIAAoJ7UFAYsaP0OPo9BD0E",
+      "msgId": 23387
     }
   ]
 }
