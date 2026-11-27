@@ -5,10 +5,10 @@
   "title": "Blindspot S03E07 720p WEB-DL AKWAM",
   "durationSeconds": 2580,
   "rawSegmentCount": 258,
-  "targetDuration": 54,
-  "complete": false,
-  "nextRawIndex": 217,
-  "totalBytes": 295346872,
+  "targetDuration": 56,
+  "complete": true,
+  "nextRawIndex": 258,
+  "totalBytes": 344882992,
   "segments": [
     {
       "index": 0,
@@ -338,6 +338,69 @@
       "bytes": 4859800,
       "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLRrCRjiNtPUw4Br5yladE-KjamFwQACei4AAoJ7SFAGzibG6U-kQT0E",
       "msgId": 19636
+    },
+    {
+      "index": 47,
+      "duration": 39.081,
+      "bytes": 6453664,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLVrCRxCQK0SYKAadcR7S8cwZpQkEgACey4AAoJ7SFDQLaLZwcVFST0E",
+      "msgId": 19637
+    },
+    {
+      "index": 48,
+      "duration": 49.09,
+      "bytes": 5804312,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLZrCRxDonIuobrAIizbwtnADPu3rgACfC4AAoJ7SFBaNq5lrqrGpz0E",
+      "msgId": 19638
+    },
+    {
+      "index": 49,
+      "duration": 43.543,
+      "bytes": 3749472,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLdrCRxE2HMbkfoIomQviczN_K87KgACfS4AAoJ7SFCnSjKLu27WSz0E",
+      "msgId": 19639
+    },
+    {
+      "index": 50,
+      "duration": 49.508,
+      "bytes": 5593752,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLhrCRxF2BskEXpO5vHk6SCHqyY--gACfi4AAoJ7SFBv41lGUvQXhD0E",
+      "msgId": 19640
+    },
+    {
+      "index": 51,
+      "duration": 55.805,
+      "bytes": 7245144,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLlrCRxHaYVN__OwqCno8KLlw40tUAACfy4AAoJ7SFCj64mrlGn_Jz0E",
+      "msgId": 19641
+    },
+    {
+      "index": 52,
+      "duration": 42.71,
+      "bytes": 6685656,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLprCRxJBpJL59i9SQl5CvqbEhf1WgACgC4AAoJ7SFCLJYgt2cVzID0E",
+      "msgId": 19642
+    },
+    {
+      "index": 53,
+      "duration": 43.836,
+      "bytes": 5352736,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLtrCRxK6c47qhGs9ssKHF6sPSejygACgS4AAoJ7SFCLjhW5jPKORz0E",
+      "msgId": 19643
+    },
+    {
+      "index": 54,
+      "duration": 50.175,
+      "bytes": 6387864,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTLxrCRxMsEPtgBohRpHQn_Cz2tm8sQACgi4AAoJ7SFB27V0e6TtGEj0E",
+      "msgId": 19644
+    },
+    {
+      "index": 55,
+      "duration": 34.118,
+      "bytes": 2263520,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACTL1rCRxNkJxyRHrY5WHC9g2G2Ofv1wACgy4AAoJ7SFB9L1HDU7h6fj0E",
+      "msgId": 19645
     }
   ]
 }
