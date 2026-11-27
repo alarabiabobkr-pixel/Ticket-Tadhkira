@@ -1,0 +1,76 @@
+{
+  "byseCode": "yitppsap0nca",
+  "channelId": "-1004389672836",
+  "quality": "720p-direct",
+  "title": "The Matrix 1999 1080p BluRay AKWAM",
+  "durationSeconds": 158,
+  "rawSegmentCount": 16,
+  "targetDuration": 45,
+  "complete": true,
+  "nextRawIndex": 16,
+  "totalBytes": 29391168,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 12.6,
+      "bytes": 3155768,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACUZRrCQln98Jx-Hlfb57UI8uYr7oAAZkAAtcoAAKYRUhQ2fvVbGtVeK09BA",
+      "msgId": 20884
+    },
+    {
+      "index": 1,
+      "duration": 7.533,
+      "bytes": 1257720,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACUZVrCQloXwRgT7FIU0CjnWnC8WwQkAAC2CgAAphFSFDQcyijs-PB4z0E",
+      "msgId": 20885
+    },
+    {
+      "index": 2,
+      "duration": 44.267,
+      "bytes": 7909536,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACUZZrCQlq73sunCid-Yw2H7DHyyY0gQAC2SgAAphFSFAPDOshToVHtT0E",
+      "msgId": 20886
+    },
+    {
+      "index": 3,
+      "duration": 28.667,
+      "bytes": 6763112,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACUZdrCQlrdE9bID_wFjpsD11LecHDrgAC2igAAphFSFA8VbZpEVYctT0E",
+      "msgId": 20887
+    },
+    {
+      "index": 4,
+      "duration": 42.5,
+      "bytes": 7055264,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACUZhrCQlsTDDwIIXETEdf5yOx6DyMXwAC2ygAAphFSFA41AOcdcDhtz0E",
+      "msgId": 20888
+    },
+    {
+      "index": 5,
+      "duration": 22.733,
+      "bytes": 3249768,
+      "fileId": "BQACAgQAAyEGAAMBBaUXhAACUZlrCQlt57QCcdAvnd8izdK2DuO_tQAC3CgAAphFSFDwskhuRD-wiz0E",
+      "msgId": 20889
+    }
+  ],
+  "thumbnails": {
+    "version": 1,
+    "interval": 5,
+    "stepSeconds": 4.9469,
+    "durationSeconds": 158.3,
+    "width": 192,
+    "height": 108,
+    "cols": 10,
+    "rows": 10,
+    "count": 32,
+    "sheets": [
+      {
+        "index": 0,
+        "frames": 32,
+        "bytes": 85315,
+        "fileId": "BQACAgQAAyEGAAMBBaUXhAACUZprCQmSCDJ1W5gx3IXpsMzAwUziVAAC3SgAAphFSFDdo6umOPRgcz0E",
+        "msgId": 20890
+      }
+    ]
+  }
+}
