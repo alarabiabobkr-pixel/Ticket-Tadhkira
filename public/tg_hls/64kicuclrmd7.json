@@ -1,0 +1,42 @@
+{
+  "byseCode": "64kicuclrmd7",
+  "channelId": "-1004401107496",
+  "quality": "720p-direct",
+  "title": "Khamseen Khamseen S01E04 720p",
+  "durationSeconds": 2508,
+  "rawSegmentCount": 251,
+  "targetDuration": 59,
+  "complete": false,
+  "nextRawIndex": 12,
+  "totalBytes": 18690208,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10.6,
+      "bytes": 1453240,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACcRFrCgWNUEZRxrJdgju37qq3O2UcFQAC6DkAAoJ7UFB2ehcvkFp4Vj0E",
+      "msgId": 28945
+    },
+    {
+      "index": 1,
+      "duration": 12.88,
+      "bytes": 1994680,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACcRJrCgWPyot0XrLCbowEF-uXG7t3aQAC6jkAAoJ7UFB87tETfS_jXD0E",
+      "msgId": 28946
+    },
+    {
+      "index": 2,
+      "duration": 47.88,
+      "bytes": 7356440,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACcRNrCgWSC3gLASE_79p3rbA8lxRnuwAC6zkAAoJ7UFA7jZbsaJRryj0E",
+      "msgId": 28947
+    },
+    {
+      "index": 3,
+      "duration": 58.24,
+      "bytes": 7885848,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACcRRrCgW5OKmWyVJv4XCDuKbfqBAkKAAC7TkAAoJ7UFCg32e9llvzyD0E",
+      "msgId": 28948
+    }
+  ]
+}

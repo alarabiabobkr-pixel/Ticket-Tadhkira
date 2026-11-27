@@ -6,9 +6,9 @@
   "durationSeconds": 2726,
   "rawSegmentCount": 273,
   "targetDuration": 59,
-  "complete": false,
-  "nextRawIndex": 231,
-  "totalBytes": 338498888,
+  "complete": true,
+  "nextRawIndex": 273,
+  "totalBytes": 377690872,
   "segments": [
     {
       "index": 0,
@@ -366,6 +366,69 @@
       "bytes": 7211680,
       "fileId": "BQACAgQAAyEGAAMBBlOSKAACbltrCfeb0lLpZEedeY4lRw37LbPnzAACDzcAAoJ7UFB_8gVkI5GvoD0E",
       "msgId": 28251
+    },
+    {
+      "index": 51,
+      "duration": 43.84,
+      "bytes": 6053976,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACblxrCftVSul6i6Evve4drRIcuR6eUwACGDcAAoJ7UFAOQcQSHjIulD0E",
+      "msgId": 28252
+    },
+    {
+      "index": 52,
+      "duration": 49.32,
+      "bytes": 6393880,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbl1rCftW4aiQHAy22-_c_2KBY7R9iwACGTcAAoJ7UFAcoyI1EyfbQD0E",
+      "msgId": 28253
+    },
+    {
+      "index": 53,
+      "duration": 43.52,
+      "bytes": 7010144,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbl5rCftXWFJMrGqT9nHi1ULTC2jG8gACGjcAAoJ7UFBdRYV8egYB-D0E",
+      "msgId": 28254
+    },
+    {
+      "index": 54,
+      "duration": 47.44,
+      "bytes": 6285592,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbl9rCftZ5gniQdb-yMzb74LH7i-zxAACGzcAAoJ7UFBuhmJy7tG6NT0E",
+      "msgId": 28255
+    },
+    {
+      "index": 55,
+      "duration": 48.16,
+      "bytes": 6035928,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbmBrCftavsQbRwxrI_CZ3kicypCiqQACHDcAAoJ7UFA7x8hG7oM4wj0E",
+      "msgId": 28256
+    },
+    {
+      "index": 56,
+      "duration": 50,
+      "bytes": 2639896,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbmFrCftcUvN6sGdZrKEKX4bCzgyJTAACHTcAAoJ7UFDnEZt6-O7Flj0E",
+      "msgId": 28257
+    },
+    {
+      "index": 57,
+      "duration": 50,
+      "bytes": 1896920,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbmJrCftd2xxJAqgYOTjLn_szyvt60gACHjcAAoJ7UFCG2QfltMPNvT0E",
+      "msgId": 28258
+    },
+    {
+      "index": 58,
+      "duration": 50,
+      "bytes": 1963096,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbmNrCftexx7EstUqHdODKGFiVPDXcAACHzcAAoJ7UFAWuWlcgJHWFD0E",
+      "msgId": 28259
+    },
+    {
+      "index": 59,
+      "duration": 25.56,
+      "bytes": 912552,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACbmRrCftfedw4PDlDbibKUF9u29qpegACIDcAAoJ7UFAAAZ3zBNhPPrQ9BA",
+      "msgId": 28260
     }
   ]
 }
