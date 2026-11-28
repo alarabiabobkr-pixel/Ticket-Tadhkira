@@ -1,0 +1,85 @@
+{
+  "byseCode": "ar29gq11kzyp",
+  "parentCode": "ar29gq11kzyp",
+  "channelId": "-1004401107496",
+  "quality": "720p-smart",
+  "title": "Game Of Thrones S01E01 1080p BluRay AKWAM (720p Smart HD)",
+  "durationSeconds": 3697,
+  "rawSegmentCount": 367,
+  "targetDuration": 35,
+  "complete": false,
+  "nextRawIndex": 26,
+  "totalBytes": 26077668,
+  "segments": [
+    {
+      "index": 0,
+      "duration": 10.969,
+      "bytes": 671912,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3JrCuioh8t66DNVzq7iziyoHb9uBwAC2yIAAqoVWVDBxLTpxwAB08c9BA",
+      "msgId": 39794
+    },
+    {
+      "index": 1,
+      "duration": 10.428,
+      "bytes": 1097544,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3NrCuipAb5EFcteiszdVizJByyxSgAC3CIAAqoVWVBCgPrO9k7RjD0E",
+      "msgId": 39795
+    },
+    {
+      "index": 2,
+      "duration": 34.076,
+      "bytes": 3305980,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3RrCuiwzEljsnxSjTybwmOnKNJpqgAC3SIAAqoVWVB0_ZAD2_mSdD0E",
+      "msgId": 39796
+    },
+    {
+      "index": 3,
+      "duration": 30.616,
+      "bytes": 3112904,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3VrCuixLGXktiKP2P4zjOEfEYnNjAAC3iIAAqoVWVB1lpzSXss3eT0E",
+      "msgId": 39797
+    },
+    {
+      "index": 4,
+      "duration": 33.116,
+      "bytes": 3350912,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3ZrCui43oJfHTCGor_vx4a_bhPpkgAC3yIAAqoVWVBuEoXI-qLsGD0E",
+      "msgId": 39798
+    },
+    {
+      "index": 5,
+      "duration": 25.819,
+      "bytes": 2543828,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3drCui5iTcB0MVoaWUHY795AXOpWAAC4CIAAqoVWVDM793rQgZLDz0E",
+      "msgId": 39799
+    },
+    {
+      "index": 6,
+      "duration": 33.033,
+      "bytes": 3377232,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3hrCujBDH73QEzUH_MZMDnT-2OXtgAC4SIAAqoVWVCr5ZVxY3deGz0E",
+      "msgId": 39800
+    },
+    {
+      "index": 7,
+      "duration": 26.653,
+      "bytes": 2609628,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3lrCujCV4F30RGi9Ry1FQUrMZfE4AAC4iIAAqoVWVA0cuGmtSpB_T0E",
+      "msgId": 39801
+    },
+    {
+      "index": 8,
+      "duration": 34.117,
+      "bytes": 3410696,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3prCujJVaL6fAt9AAFgAWx7Su5mVB0AAuQiAAKqFVlQLb4dq8ty6Xo9BA",
+      "msgId": 39802
+    },
+    {
+      "index": 9,
+      "duration": 25.861,
+      "bytes": 2597032,
+      "fileId": "BQACAgQAAyEGAAMBBlOSKAACm3trCujKctjPn3vPfVhMBq9Lh0RT9QAC5SIAAqoVWVDHAqUyCxrulT0E",
+      "msgId": 39803
+    }
+  ]
+}
